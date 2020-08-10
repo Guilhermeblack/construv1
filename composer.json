@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mpdf/mpdf": "^6.1",
+        "php-curl-class/php-curl-class": "@dev"
+    }
+}

@@ -1,0 +1,33 @@
+{
+  "name":              "malukenho/speaknumber",
+  "description":       "Transcreve números para extenso.",
+  "type":              "library",
+  "homepage":          "https://github.com/malukenho/speaknumber",
+  "license":           "MIT",
+  "authors": [
+    {
+      "name":  "Jefersson Nathan",
+      "email": "malukenho@phpse.net"
+    },
+    {
+      "name":  "Andrey K. Vital",
+      "email": "andreykvital@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "~5.5|~7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit":           "4.2.4",
+    "squizlabs/php_codesniffer": "~1.5.4"
+  },
+  "suggest": {
+    "ext-intl": "Allow speaking a number in many languages."
+  },
+  "autoload": {
+    "psr-4": {
+      "Speak\\": "src/Speak/"
+    }
+  }
+}
