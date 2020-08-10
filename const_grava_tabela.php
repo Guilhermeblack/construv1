@@ -150,14 +150,6 @@
 			
 
 
-			// var_dump($pais);
-			// echo '<br></br>';
-			// var_dump($value);
-			// die();
-			// de qualquer forma ele entra aqui pelo monta_json,
-			// tanto para salvar tabela quanto para cadastrar insumo
-			//   descobrir razao por que grava com letras nada a ve
-
 			// se houver esse nivel na matriz
 			if(isset($matrix[($nivel+1)])){
 				// se a matrix com esse id tiver o filho
@@ -399,6 +391,12 @@
 		//gravar($aux, $titulo);
 	}
 
+	// function virgulaemponto($str){
+
+	// 	$str = str_replace(',', '.', $str);
+	// 	return $str;
+	// }
+
 	function formata_valor($valor){
 
 
@@ -414,7 +412,7 @@
 		// echo '<br> fim </br>';
 
 
-	    return strval($aux);
+	    return $aux;
 	}
 
 
@@ -603,17 +601,12 @@
 	                // Quantidade = 2             
 	                // Unidade Medida = 3                              
 	                // Valor Unitario = 4                 
-	                
-	                /*
-	            	if($registro == 7){
-	            		var_dump($linha);
-	            		die();
-	            	}*/
-
+	            
 	                $problema = '';
 	                $no;
 					$valida = 1;
 					
+					// colunas da linha
 	                for($i = 0; $i < count($linha); $i++){
 
 
@@ -634,14 +627,16 @@
 	                    if ($i == 0) {  
 	                        if (empty($linha[$i])) {
 	                            $valida = 0;
-	                            $problema .= 'id invalido';
+								$problema .= 'id invalido';
+								array_push($vare,[' errooooo']);
 	                            break;
 	                        }else{
 
 								//indice pae
 								$no['id'] = $linha[$i];
 								
-								
+								array_push($vare,[$linha[$i]. '  <>  '. $no['id']]);
+								// echo $no['id'];
 								//se ja tive indice reescrever de acordo com a existente
 	                        }
 	                    }
@@ -687,7 +682,7 @@
 	                        if(empty($linha[$i])){
 	                        	$no['qnt'] = '';
 	                        }else {
-	                            $no['qnt'] = $linha[$i];
+	                            $no['qnt'] = floatval($linha[$i]);
 	                        }
 	                    }
 
@@ -703,7 +698,7 @@
 	                    // Armazenamento Valor Unitario
 	                    elseif ($i == 4) {
 	                        if (empty($linha[$i])) {
-								$no['valor_uni'] = 0;
+								$no['valor_uni'] = '';
 								array_push($var,' -=-=-=-=-=-=-=-=-=-=-=-=- ');
 	                        }else{
 								
@@ -809,8 +804,20 @@
 				}
 				
 			}
-			// var_dump($var);
-			// die(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			
 	    }
 

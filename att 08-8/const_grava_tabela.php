@@ -75,13 +75,14 @@
 		return false;
 	}
 
+	// separa o indice e verifica se o indice do pai contem o indice do filho
 	function verifica_filho($idPai, $idFilho){
 
 		$idPai = explode('.', $idPai);
 		$idFilho = explode('.', $idFilho);
 
 		foreach ($idPai as $key => $value) {
-
+			//corre array do indice pai
 			if(strcmp($value, $idFilho[$key]) != 0){
 				return false;
 			}
@@ -94,9 +95,14 @@
 		return substr_count($aux, '.');
 	}
 
+	// pega o indice e a matrix para verificar o filho
 	function has_children($id, $nivel){
 
+		// nivel sao os itens a serem verificados como filhos
 		foreach ($nivel as $key => $value) {
+
+			//se o verifica filho for veraddeiro
+
 			if(verifica_filho($id, $value['id_tarefa'])){
 				return true;
 			}
@@ -133,16 +139,20 @@
 
 		$vetor = array();
 
+		// var_dump($pais);
+		// echo '<br></br>';
+		// var_dump($matrix);
+		// echo '<br></br>';
+		// var_dump($nivel);
+		// die();
+
 		foreach ($pais as $key => $value) {
 			
 
 
-			// de qualquer forma ele entra aqui pelo monta_json,
-			// tanto para salvar tabela quanto para cadastrar insumo
-			//   descobrir razao por que grava com letras nada a ve
-
-
+			// se houver esse nivel na matriz
 			if(isset($matrix[($nivel+1)])){
+				// se a matrix com esse id tiver o filho
 				if(has_children($value['id_tarefa'], $matrix[($nivel+1)])){
 
 					$aux = escreve_array(get_children($value['id_tarefa'], $matrix[($nivel+1)]), $matrix, ($nivel+1));
@@ -168,6 +178,7 @@
 			}
 		}
 
+		
 		return $vetor;
 	}
 
@@ -175,11 +186,18 @@
 
 		include "conexao.php";
 
+		// pega o que foi inserido para o orcamento 
+
 		$query = mysqli_query($db, "SELECT * FROM const_orcamento WHERE id = $orcamento")or die(mysqli_error($db));
 
 		if(mysqli_num_rows($query) > 0){
 
 			$assoc = mysqli_fetch_assoc($query);
+
+			// echo $orcamento;
+			// echo '<br> 2 </br>';
+			// // var_dump($assoc);
+			// die();
 
 			$titulo = $assoc['titulo'];
 
@@ -192,6 +210,11 @@
 		// Separo e monto a matrix com os niveis e os dados dos nós
 		while ($executa_query = mysqli_fetch_assoc($query)) {
 
+			// echo '<br> a </br>';
+			// var_dump($executa_query);
+			// die();
+
+			// conta os pontos para definir o nivel;
 			$nivel = verifica_nivel($executa_query['id_tarefa']);
 
 			if(!isset($matrix[$nivel])){
@@ -241,15 +264,23 @@
 		if(isset($matrix)){
 
 
-			
+
 			$aux = escreve_array($matrix[0], $matrix, 0);
-			
+
+			// echo '<br> 1 </br>';
+			// var_dump($aux);
+			// die();
 			$aux = json_encode($aux);
 
 			// var_dump($aux);
 			// die();
 
 			$aux = str_replace('pasta', 'title', $aux);
+			// echo '<br> 2 </br>';
+			// echo $titulo;
+			// echo '<br> 3 </br>';
+			// var_dump($aux);
+			// die();
 
 			gravar($aux, $titulo);
 			
@@ -360,28 +391,120 @@
 		//gravar($aux, $titulo);
 	}
 
+	function virgulaemponto($str){
+
+		$str = str_replace(',', '.', $str);
+		return $str;
+	}
+
 	function formata_valor($valor){
-		$valor = explode(' ', $valor);
+
+
+		$valor =preg_split("/[\s]+/", $valor);
+
+		// var_dump($valor);
+		// echo '<br> explode </br>';
 	    $aux = str_replace(',', '.', $valor[1]);
 
 	    //OBS: vard_dump na $linha para ver como vem a informação
-	    //$aux = str_replace('.', '', $aux[0]);
-	    //$aux = str_replace(',', '', $aux[1]);
 
-	    //$aux = number_format($aux[0], 2, '.', '');
+		// var_dump($aux);
+		// echo '<br> fim </br>';
 
-	    return $aux;
+
+	    return strval($aux);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function verifica_planilha($arquivo, $orcamento){
+
+		include 'conexao.php';
+		// verificar se nome da planilha ja existe
+
+		$nomeorca = mysqli_query($db,"SELECT titulo FROM `const_orcamento` WHERE `id` = $orcamento") or (die($db));
+		$nomeorc = mysqli_fetch_Assoc($nomeorca);
+
+		
+		if($nomeorc){
+
+			$nome_arq= $nomeorc['titulo'].'.json';
+
+			$path = "./orcamentos/";
+			// echo $path;
+
+			$diretorio = dir($path);
+
+			
+			// echo '<br>'.$nome_arq.'</br>';
+
+			while($arquivo = $diretorio -> read()){
+
+				// SE EU ACHAR O MESMO NOME DE ORÇAMENTO
+				if(strval($nome_arq) == strval($arquivo)){
+
+					// verificar se tem verifica_filho
+					// alinhar com o indice
+					// echo $path.$arquivo;
+
+					// echo '<br> - </br>';
+					$irma= file_get_contents($path.$arquivo);
+					
+					// é o arquivo json como objeto
+					$dec= json_decode($irma);
+					// echo json_encode($dec);
+
+					
+					foreach($dec[0] as $k =>$arq){
+
+					}
+					// print_r($irma);
+					$diretorio -> close();
+
+					// retorno array do orcamento
+					return $dec;
+				}
+				// echo "<a href='".$path.$arquivo."'>".$arquivo."</a><br />";
+			}
+
+			
+
+
+		}
+		
+		return json_encode(1);
+	}
+
 
 	function grava_planilha_orcamento($arquivo, $orcamento, $tipo_planilha){ // Passando o caminho do arquivo
 
 		include "conexao.php";
 
+		// json receebe a orcamento com mesmo nome
+		//tem que ler planilha e categorizar indices
 
-		//aqui grava a planilha - SOLTA EU !
+		// $json= verifica_planilha($arquivo, $orcamento);
+		//aray do orcamento
+		//normalizar indice
+		// echo '<br> 1 </br>';
+		// var_dump($json);
+
+		// die();
 
 	    $retorno["ok"] = Array();
 
+		
 
 	    // If you need to parse XLS files, include php-excel-reader
 	    require('spreadsheet-reader-master/PHPExcel.php');
@@ -395,14 +518,16 @@
 	    $Reader = new SpreadsheetReader($arquivo); // Crio o objeto do arquivo
 	    $Sheets = $Reader -> Sheets(); // Obtenho as planilhas do arquivo
 
+		$var = [];
 		foreach ($Sheets as $Index => $Name){// Para percorrer as planilhas do arquivo
 			
 
+			
 
 
+			// pegar o nome do orçaento e fonferir na tebela de orcamento
 
-
-			// verificar nas planilhas se tem planilha com mesmo nome
+			
 			//se tiver eu alinho o indice
 
 
@@ -476,20 +601,16 @@
 	                // Quantidade = 2             
 	                // Unidade Medida = 3                              
 	                // Valor Unitario = 4                 
-	                
-	                /*
-	            	if($registro == 7){
-	            		var_dump($linha);
-	            		die();
-	            	}*/
-
+	            
 	                $problema = '';
 	                $no;
-	                $valida = 1;
+					$valida = 1;
+					
+					// colunas da linha
 	                for($i = 0; $i < count($linha); $i++){
 
 
-
+						// $i é a coluna
 
 
 						//pegar indice planilha mesmo nome
@@ -506,14 +627,17 @@
 	                    if ($i == 0) {  
 	                        if (empty($linha[$i])) {
 	                            $valida = 0;
-	                            $problema .= 'id invalido';
+								$problema .= 'id invalido';
+								array_push($vare,[' errooooo']);
 	                            break;
 	                        }else{
 
 								//indice pae
-								$no['id'] = $linha[$i];
+								$no['id'] = virgulaemponto($linha[$i]);
 								
-								//seja tive indice reescrever de acordo com a existente
+								array_push($vare,[$linha[$i]. '  <>  '. $no['id']]);
+								echo $no['id'];
+								//se ja tive indice reescrever de acordo com a existente
 	                        }
 	                    }
 
@@ -525,8 +649,31 @@
 	                        if (empty($linha[$i])) {
 	                            $no['descricao'] = '';
 	                        }else{
+
+								//condicao se o nome ja existir no orcamento
+								//nome da planilha que vem
 	                            $no['descricao'] = addslashes($linha[$i]);
-	                            //$no['descricao'] = utf8_decode($linha[$i]);
+								//$no['descricao'] = utf8_decode($linha[$i]);
+								
+								// echo $no['descricao'];
+								// echo '<br></br>';
+								// var_dump($json[0]);
+								// die();
+
+
+
+
+
+
+
+
+
+								
+								// if(in_array($no['descricao'], $json[0])){
+								// 	// echo 'deixe';
+								// 	// die();
+
+								// }
 	                        }
 	                    }
 
@@ -551,13 +698,17 @@
 	                    // Armazenamento Valor Unitario
 	                    elseif ($i == 4) {
 	                        if (empty($linha[$i])) {
-	                            $no['valor_uni'] = '';
+								$no['valor_uni'] = 0;
+								array_push($var,' -=-=-=-=-=-=-=-=-=-=-=-=- ');
 	                        }else{
-	                            $no['valor_uni'] = formata_valor($linha[$i]);
+								
+
+								$no['valor_uni'] = formata_valor($linha[$i]);
+								array_push($var,[$no['valor_uni'],$linha[$i]]);
 	                        }
 	                    }
 
-	                    // Armazenamento Valor Unitario
+	                    // Armazenamento codigo
 	                    elseif ($i == 5) {
 	                        if (empty($linha[$i])) {
 	                            $no['cod_insumo'] = '';
@@ -567,7 +718,8 @@
 	                    }
 
 	                }
-
+					 
+					
 	                // Verifico se estão preenchidos pelo menos 1 campo de identificação
 	                if(empty($no['cod_insumo']) && empty($no['descricao'])){
 	                	$valida = 0;
@@ -580,7 +732,7 @@
 
 	                    // Faço a verificação para saber a qual tabela o plano pertence
 	                    if(empty($no['qnt']) && empty($no['uni_medida']) && empty($no['valor_unitario'])){
-	                    	$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE codigo = '".$no['cod_insumo']."' OR `descricao` = '".$no['descricao']."' ")or die(mysqli_error($db));
+	                    	$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE `codigo` = '".$no['cod_insumo']."' OR `descricao` = '".$no['descricao']."'")or die(mysqli_error($db));
 
 	                    	if(mysqli_num_rows($query) > 0){
 	                    		$aux = mysqli_fetch_assoc($query);
@@ -595,7 +747,7 @@
 	                    }else{
 
 	                    	if($tipo_planilha == 2){
-	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = '".$no['cod_insumo']."' OR `titulo` = '".$no['descricao']."'");
+	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = ".$no['cod_insumo']." OR `titulo` = '".$no['descricao']."'");
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -607,7 +759,7 @@
 	                    			$tabela = 3;
 	                    		}
 	                    	}else{
-	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = '".$no['cod_insumo']."' OR `descricao` = '".$no['descricao']."'");
+	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = ".$no['cod_insumo']." OR `descricao` = '".$no['descricao']."'");
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -622,17 +774,19 @@
 	                    }	
 
 	                    if($tipo_planilha == 1){
-    	                    $aux = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , $orcamento , ".$no['cod_insumo'].", $tabela, 1 )") or die(mysqli_error($db));
+    	                    $aux = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) VALUES (".$no['id'].", '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , $orcamento , ".$no['cod_insumo'].", $tabela, 1 )") or die(mysqli_error($db));
     	                    
 	                    }elseif($tipo_planilha == 2){
-	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , $orcamento , ".$no['cod_insumo'].", $tabela, 1 )") or die(mysqli_error($db));
+	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES (".$no['id'].", '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , $orcamento , ".$no['cod_insumo'].", $tabela, 1 )") or die(mysqli_error($db));
 	                    }
 	                    
 	                    
 
 	                    mysqli_close($db);
 
-	                    array_push($retorno['ok'], $registro);
+						array_push($retorno['ok'], $registro);
+
+
 	                }else{  
 
 	                    // Insere as linha incorretas na tabela de erros
@@ -647,13 +801,49 @@
 
 	                    $retorno["error"] = 1;
 	                }
-	            }
-	        }
+				}
+				
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+			var_dump($vare);
+			die(); 
+			
 	    }
+
+		
 
 	    $file = $objWriter = PHPExcel_IOFactory::createWriter($tabela_erro, 'Excel2007');
 	    $file->save("planilhas/falhas.xlsx");
 
+		// itens ja foram inseridos no orcamento
 	    monta_json($orcamento);
 
 	    return $retorno;
@@ -743,6 +933,9 @@
 		            	$valida = 1;
 		            	for($i = 0; $i < count($linha); $i++){
 
+							//            LINHA
+							
+							
 		                    // Validação do Código do insumo
 		            		if ($i == 0) {  
 		            			if (empty($linha[$i])) {
@@ -787,7 +980,11 @@
 		            				$insumo["especie"] = addslashes($linha[$i]);
 		            			}
 		            		}
-		            	}
+						}
+						
+
+						//                       LINHA
+
 
 		            	if ($valida == 1) {
 
@@ -1367,6 +1564,7 @@
 	if(isset($_POST['nos_material'])){
 
 
+		// id do orcamento
 		$orcamento = $_POST['orcamento'];
 		$nos_material = $_POST['nos_material'];
 		$nos_tarefa = $_POST['nos_tarefa'];
