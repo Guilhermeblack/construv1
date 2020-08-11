@@ -401,20 +401,38 @@
 
 	function formata_valor($valor){
 
-
-		$valor =preg_split("/[\s]+/", $valor);
-
 		// var_dump($valor);
-		// echo '<br> explode </br>';
-	    $aux = str_replace(',', '.', $valor[1]);
+		// echo '<br> -=-=-=- </br>';
+		$l++;
+		// $valor = utf8_encode($valor);
+		// $vai = strstr(strval($valor), '$');
+		// $valor =explode("$",$valor)[1];
+
+		$valor = explode("$", $valor)[1];
+		// var_dump($valor);
+		$val = substr($valor,2);
+
+	    $aux = str_replace(',', '.', $val);
 
 	    //OBS: vard_dump na $linha para ver como vem a informação
 
-		// var_dump($aux);
+		// if($l = 21){
+		// 	echo strlen($aux);
+		// 	echo '  tomanao   ';
+		// 	var_dump($aux);
+		// 	die();
+		// }
+		
 		// echo '<br> fim </br>';
 
+		if($aux == ''){
+			echo 'loop'.$l;
+			var_dump($valor);
+			echo 'tomanocu';
+			var_dump($aux);
 
-	    return strval($aux);
+		}
+	    return $aux;
 	}
 
 
@@ -521,6 +539,7 @@
 	    $Sheets = $Reader -> Sheets(); // Obtenho as planilhas do arquivo
 
 		$var = [];
+		$vare=[];
 		foreach ($Sheets as $Index => $Name){// Para percorrer as planilhas do arquivo
 			
 
@@ -639,7 +658,17 @@
 	                        }else{
 
 								//indice pae
+								
 								$no['id'] = $linha[$i];
+								//trato ocorrencia de numeros sem ponto que vem da planilha
+								if(strlen($no['id']) >= 4){
+									if(!strstr($var, '.')){
+
+										$no['id'] = substr_replace($no['id'], '.', 1,0);
+									}
+								}
+								array_push($vare, [$no['id']]);
+								// echo '<br></br>';
 								
 								
 								//se ja tive indice reescrever de acordo com a existente
@@ -687,7 +716,7 @@
 	                        if(empty($linha[$i])){
 	                        	$no['qnt'] = '';
 	                        }else {
-	                            $no['qnt'] = $linha[$i];
+	                            $no['qnt'] = floatval($linha[$i]);
 	                        }
 	                    }
 
@@ -708,6 +737,8 @@
 	                        }else{
 								
 
+								// var_dump($linha[$i][6]);
+								// die();
 								$no['valor_uni'] = formata_valor($linha[$i]);
 								array_push($var,[$no['valor_uni'],$linha[$i]]);
 	                        }
@@ -723,7 +754,7 @@
 	                    }
 
 	                }
-					 
+
 					
 	                // Verifico se estão preenchidos pelo menos 1 campo de identificação
 	                if(empty($no['cod_insumo']) && empty($no['descricao'])){
@@ -752,7 +783,7 @@
 	                    }else{
 
 	                    	if($tipo_planilha == 2){
-	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = ".$no['cod_insumo']." OR `titulo` = '".$no['descricao']."'");
+	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = '".$no['cod_insumo']."' OR `titulo` = '".$no['descricao']."'");
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -764,7 +795,7 @@
 	                    			$tabela = 3;
 	                    		}
 	                    	}else{
-	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = ".$no['cod_insumo']." OR `descricao` = '".$no['descricao']."'");
+	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = `".$no['cod_insumo']."` OR `descricao` = '".$no['descricao']."'");
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -779,10 +810,10 @@
 	                    }	
 
 	                    if($tipo_planilha == 1){
-    	                    $aux = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) VALUES (".$no['id'].", '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , $orcamento , ".$no['cod_insumo'].", $tabela, 1 )") or die(mysqli_error($db));
+    	                    $aux = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."' ,'".$no['valor_uni']."' , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
     	                    
 	                    }elseif($tipo_planilha == 2){
-	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES (".$no['id'].", '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , $orcamento , ".$no['cod_insumo'].", $tabela, 1 )") or die(mysqli_error($db));
+	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."' , '".$no['valor_uni']."' , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
 	                    }
 	                    
 	                    
@@ -809,6 +840,7 @@
 				}
 				
 			}
+			// var_dump($vare);
 			// var_dump($var);
 			// die(); 
 			

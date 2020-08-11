@@ -207,7 +207,7 @@
 
 
                                 //Grupo_rota 14 == mestre de Obra
-                                $query = mysqli_query($db, "SELECT * FROM `cliente` WHERE `idgrupo` = 19")or die(mysqli_error($db));
+                                $query = mysqli_query($db, "SELECT * FROM `cliente` WHERE `idgrupo` = 14")or die(mysqli_error($db));
 
                                 if(mysqli_num_rows($query) > 0){
                                     while ($assoc = mysqli_fetch_assoc($query)) {
