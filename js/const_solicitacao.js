@@ -737,6 +737,9 @@ $(document).on('show.bs.modal', '.modal', function (event) {
     }, 0);
 });
 
+
+
+
 //Atualiza toda a tabela de insumos de acordo com as opções selecionadas
 $("a#atualizar").click(function(){
 
@@ -749,6 +752,7 @@ $("a#atualizar").click(function(){
     
     var aux = {};
 
+    // pega a categoria e especie selecionada
     aux['categoria'] = $FORM_PRINCI.find('select#select_categoria > option:selected').val();
     aux['especie'] = $FORM_PRINCI.find('select#select_especie > option:selected').val();
 
@@ -852,6 +856,13 @@ $("a#pesquisar").click(function(){
     });
 }); 
 
+
+
+
+
+
+
+
 //Atualiza os campos do select de acordo com a categoria selecionada
 $("select#select_categoria").change(function(data){
 
@@ -884,6 +895,28 @@ $("select#select_categoria").change(function(data){
         error: erro => {console.log(1)}  
     });  
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Input para busca da modal de insumos
 $("input#input_add_insumo").on("keyup", function() {
@@ -1726,9 +1759,25 @@ $(document).on('click', 'button#cancela_solicitacao_def', function(){
     }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Função para pegar dados referentes a categoria do insumo a ser inserido
 $(document).on('click', 'span#add_insumo', function(){
 
+    // pega um id > de onde 
     let id_no = $(this).parents('tr').find('> td[id="id"]').text();
 
     let no  = $("#tree").fancytree("getTree").findAll(function(node) {
@@ -1743,6 +1792,8 @@ $(document).on('click', 'span#add_insumo', function(){
 
     $('div#modal-insumos').modal('show');
 });
+
+
 
 //Função para adicionar definitivamente um insumo não orçado
 $(document).on('click', 'a.add_insumo_unico', function(){
@@ -1811,6 +1862,24 @@ $(document).on('click', 'a.add_insumo_unico', function(){
         alert('Selecione o Orçamento!');
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Rotina para listar as OC referentes a solicitacao clicada
 $(document).on('click', 'a#oc_solicitacao', function(){

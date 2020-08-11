@@ -276,6 +276,9 @@ function table(source, tabela) {
                         break;
 
                     case "novo_plano": 
+
+                        // se no contexto clicar em novn plano
+                        //ele faz a açao de clicar no botao de cad plano
                         $("input#cad_plano_desc").val(node.title);
                         $("button#cad_plano").click();
                         break;
@@ -1032,11 +1035,11 @@ $('a#upload_planilha').click(function(event){
 });
 
 //Atualiza os campos do select de acordo com a categoria selecionada
-$("select#select_categoria").change(function(data){
+$("select#choice_categoria").change(function(data){
 
 	//Pego o elemento selecionado
 	var opcao_select = $(this).find('option:selected').val();
-    let selecione = $('select#select_especie').find('> option[id="selecione"]').clone(true);
+    let selecione = $('select#choice_especie').find('> option[id="selecione"]').clone(true);
     
 
 
@@ -1052,11 +1055,11 @@ $("select#select_categoria").change(function(data){
         success: dados =>
         { 
 
-            $('select#select_especie').empty();
-            $('select#select_especie').append(selecione);
+            $('select#choice_especie').empty();
+            $('select#choice_especie').append(selecione);
 
             for(var i = 0; i < dados.length; i++){
-                $('select#select_especie').append("<option value='"+dados[i]+"'>"+dados[i]+"</option>");
+                $('select#choice_especie').append("<option value='"+dados[i]+"'>"+dados[i]+"</option>");
             }	
             // console.log(dados);
 			
@@ -1064,6 +1067,82 @@ $("select#select_categoria").change(function(data){
 		  
 	});  
 });
+
+
+
+
+
+
+// Lista os itens da categoria e especie escolhidos
+$("a#atualizar").click(function(){
+
+    var $TABLE = $('#table_ins > table');
+    var $FORM_PRINCI = $('#form_principal');
+
+    var $clone = $TABLE.find('> tbody > tr.hide').clone(true);
+    $TABLE.find('> tbody').empty();
+    $TABLE.find('> tbody').append($clone);
+    
+    console.log($clone);
+    var aux = {};
+
+    // pega a categoria e especie selecionada
+    aux['categoria'] = $FORM_PRINCI.find('select#choice_categoria > option:selected').val();
+    aux['especie'] = $FORM_PRINCI.find('select#choice_especie > option:selected').val();
+
+    console.log(aux);
+
+    $.ajax({  
+        url:'const_grava_insumo.php',  
+        method:'POST', 
+        data: aux,
+        dataType:'json', 
+        beforeSend: function(){
+            $("div#salvar").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
+            $("div#footer_salvar").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
+            $('div#modal7').modal('show');
+        },
+        success: dados => 
+        {   
+            //console.log(dados);
+            $('div#modal7').modal('hide');
+
+            if(!isEmpty(dados)){
+
+                for(var data in dados ){
+
+                    console.log(data);
+                    var $clone = $TABLE.find('> tbody > tr.hide').clone(true).removeClass('hide table-line').attr('id-insumo-solo', dados[data].id);
+                    $TABLE.find('> tbody').append($clone);
+
+                    $TABLE.find('> tbody > tr:last-child > td').each(function(i){
+                        if(i == 0){
+                            $(this).text(dados[data].codigo);
+
+                        }else if(i == 1){
+                            $(this).text(dados[data].desc);
+                        }
+                    });
+                }
+            }else{
+                $TABLE.find('> tbody').empty();
+            }
+        },
+        error: erro => {
+            $('div#modal7').modal('hide');
+            console.log("Erro")
+        },  
+    });
+});
+
+
+
+
+
+
+
+
+
 
 //Salva o insumo cadastrado
 $('#cad_insumo_form').on("submit", function(event){  
@@ -1075,8 +1154,8 @@ $('#cad_insumo_form').on("submit", function(event){
 
 		adiciona.push($("input#cad_insumo_cod").val().replace(',' , '.'));
 		adiciona.push($("input#cad_insumo_desc").val().toUpperCase());
-		adiciona.push($("select#select_categoria").find('option:selected').val());
-		adiciona.push($("select#select_especie").find('option:selected').val());
+		adiciona.push($("select#choice_categoria").find('option:selected').val());
+		adiciona.push($("select#choice_especie").find('option:selected').val());
 
 		//variaveis para alteração do id do insumo na tabela orçamento
 		adiciona.push(fn.data.id);
@@ -1237,6 +1316,23 @@ $('#cad_plano_form').on("submit", function(event){
         }  
 		});  
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Cadastra um novo orçamento
 $('#form_cad_orcamento').on("submit", function(event){
@@ -1815,3 +1911,16 @@ $("button#reset_tarefa").click(function(e){
     $("span#matches").text("");
     tree.clearFilter();
 });
+
+
+
+// $('#envia_xlsx').on("submit", function(){
+//     $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
+//     $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
+//     $("button#dialog").click();
+//     setTimeout(function(){
+//         $("div#dialog-body").hide();
+//         $("div#dialog-footer").hide();
+ 
+//     },13000);
+// });

@@ -398,7 +398,7 @@
 			//echo "</br>";
 			//var_dump($id_insumo_plano);
 
-			$query = mysqli_query($db, "UPDATE `tabela_orcamento` SET `id_insumo_plano`= $id_insumo_plano, `tabela`=".$aux[5]." WHERE `id` = ".$aux[4]." ")or die(mysqli_error($db));
+			$query = mysqli_query($db, "UPDATE `tabela_orcamento` SET `id_insumo_plano`= $id_insumo_plano, `tabela`=".$aux[5]." WHERE `id` = ".$aux[4]."")or die(mysqli_error($db));
 
 			monta_json($aux[6]);
 
@@ -408,13 +408,10 @@
 		$retorno['id'] = $id_insumo_plano;
 		$retorno['tabela'] = $aux[5];
 
-		// var_dump($retorno);
-		// die();
+
 
 		echo json_encode($retorno);
 
-
-		//print_r($aux);
 
 	//Faço o cadastro da categoria
 	}else if(isset($_POST['descricao_categoria'])){

@@ -51,6 +51,12 @@
     if(isset($_FILES["userfile"])){
 
     	if($_POST['select_up'] == 1 || $_POST['select_up'] == 2){
+				echo '<script>
+				$("div#dialog-body").html("<img src="img/loading.gif" width="45" height="45" style="text-align: right;">");
+				$("div#dialog-footer").html("<h4 class="modal-title" align="center" id="salvar">Carregando, aguarde!</h4>");
+				$("button#dialog").click();
+				</script>';
+
     		$upArquivo = new Upload;
     		if($upArquivo->UploadArquivo($_FILES["userfile"], "planilhas/"))
     		{   
@@ -69,10 +75,11 @@
 			unset($caminho);
 			unset($_FILES["userfile"]);
 			unset($_POST['select_up']);
+			echo 'setTimeout(function(){
+        		$("div#dialog-body").hide();
+				$("div#dialog-footer").hide();
+    		},500);';
 
-			header("Cache-Control: no-store, no-cache, must-revalidate");
-			header("Cache-Control: post-check=0, pre-check=0", false);
-			header("Pragma: no-cache");
 			header("Refresh:0; url=const_tabela.php");
 			
 		}
@@ -102,6 +109,8 @@
 		<link href="https://immobilebusiness.com.br/admin/assets/css/style-responsive.min.css" rel="stylesheet" />
 		<link href="https://immobilebusiness.com.br/admin/assets/css/theme/default.css" rel="stylesheet" id="theme" />
 		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
 		<!-- ================== END BASE CSS STYLE ================== -->
 		
@@ -436,7 +445,7 @@
 					</div>
 					<div class="panel-footer">
 						<div class="row">
-							<div class="col-md-8">
+							<div class="col-md-8" style="width:;">
 								<button onclick="salva_tabela();" class="btn btn-success btn-sm" id="salva_tabela">
 									<span class="glyphicon glyphicon-floppy-disk" style="font-size: 10px;"></span>
 									Salvar Tabela
@@ -451,9 +460,11 @@
 								<button onclick="gera_excel();" class="btn btn-danger btn-sm" style="background-color: #41863a; color: #FFF; border:none;" >Exportar Excel</button>
 
 								<button onclick="gera_pdf();" class="btn btn-danger btn-sm" style="background-color: #41863a; color: #FFF; border:none;" >Exportar PDF</button>
-
-
 								
+								<button href="#modal-insumo" data-toggle="modal" data-target="#modal-insumo" class="btn btn-warning btn-md" id="add-insumo" style="margin-left:11%;">
+									<span class="glyphicon glyphicon-plus-sign" style="font-size: 10px;"></span>
+									Adicionar Item
+								</button>
 							</div>
 							<div class="col-md-4" >
 								<p>
@@ -473,7 +484,7 @@
 			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			                <h4 class="modal-title">Subir Planilha de Orçamento</h4>
 			            </div>
-			            <form class="form-action" action="const_tabela.php" method="POST" enctype="multipart/form-data" name="envia_xlsx">
+			            <form class="form-action" action="const_tabela.php" method="POST" enctype="multipart/form-data" id="envia_xlsx" name="envia_xlsx">
 			            	<div class="modal-body">
 			            		<div class="form-group">
 			            			<input type="hidden" name="id_orcamento" value="" id="id_orcamento">
@@ -491,11 +502,15 @@
 			            		</div>
 			            	</div>
 			            	<div class="modal-footer">
-			            		<input type="submit" name="cadastrar" value="Cadastrar" class="btn btn-success"/>
+			            		<input type="submit" id="cad_plan" name="cad_plan" value="Cadastrar" class="btn btn-success"/>
 			            	</div>
 			            </form>
 			        </div>
 			    </div>
+			</div>
+
+			<div class='loading'>
+				
 			</div>
 
 			<button href="#modal-dialog" data-toggle="modal" data-target="#modal-dialog" class="hidden" id="dialog"></button>
@@ -692,6 +707,88 @@
 				</div>
 			</div>
 
+			<div id="modal-insumo" class="modal fade" role="dialog">
+				<div class="modal-dialog modal-lg">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<input type="text" class="hidden" id="id_pai">
+							<div class="row">
+								<button type="button" class="close" id="close_cad_insumo" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title" style="text-align: center; text-transform: uppercase; font-weight: bold;">Adicionar Material</h4>
+							</div>
+
+							<div class="row">
+								<form method="POST" id="form_principal" action="demo.html">
+									<div class="col-md-5" style="">
+										<label style="color: #000; text-transform: uppercase; padding-top: 8px;">Categoria</label>
+										<select class="form-control"  id="choice_categoria" >
+											<option value="">Selecione</option>
+											<?php 
+
+											include "conexao.php";
+											$query_categoria =  mysqli_query($db, "SELECT descricao FROM const_categoria WHERE `categoria_pai` = 0")or die(mysqli_error($db));
+											while ($associa = mysqli_fetch_assoc($query_categoria)) {
+												?>
+												<option value="<?php echo ($associa['descricao'])?>"><?php echo ($associa['descricao'])?></option>
+												<?php
+											}
+											?>
+										</select>
+									</div>
+									<div class="col-md-5" style="">
+										<label  style="color: #000 ; text-transform: uppercase; padding-top: 8px;">Espécie</label>
+										<select class="form-control " id="choice_especie" >
+											<option value="" id="selecione">Selecione</option>
+										</select>
+										
+									</div>
+									<div class="col-md-2" style="padding-top: 4%;">
+										<a href="#" class="btn btn-success btn-sm" id="atualizar" style=" ">Atualizar</a>
+									</div>
+								</form>
+							</div>
+							
+							
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="form-group" align="center" style="padding: 5px;">
+									<input class="form-control" id="input_add_insumo" type="text" placeholder="Pesquise Aqui ..." style="width: 95%;">
+								</div>
+							</div>
+							<div id="table_ins" class="table-editable pre-scrollable">
+				      			<table class="table table-bordered table-responsive-md table-striped text-center">
+				      				<colgroup>
+				      					<col width="10%"></col>
+				      					<col width="40%"></col>
+				      					<col width="20%"></col>
+				      					<col width="20%"></col>
+				      					<col width="10%"></col>
+				      				</colgroup>
+				      				<thead class="thead-dark">
+				      					<tr>
+				      						<th class="text-center" style='text-align: center;'>Código</th>
+				      						<th class="text-center" style='text-align: center;'>Descrição</th>
+				      						<th class="text-center" id="adicionar" style='text-align: center;'>Adicionar</th>
+				      					</tr>
+				      				</thead>
+				      				<tbody id="myTable">
+				      					<tr class="hide">
+				      						<td style='text-align: center;'>123</td>
+				      						<td style='text-align: center;'>Nome do Insumo</td>
+				      						<td style='text-align: center;'>
+				      							<a class="btn btn-info btn-rounded btn-sm add_insumo_unico">Adicionar</button>
+				      						</td>
+				      					</tr>
+				      				</tbody>
+				      			</table>
+				      		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<div class="script">
@@ -706,6 +803,7 @@
 			<!-- ================== END BASE JS ================== -->
 			
 			<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+			
 			<script src="https://immobilebusiness.com.br/admin/assets/js/apps.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/ui-contextmenu/jquery.ui-contextmenu.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
