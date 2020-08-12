@@ -1914,13 +1914,13 @@ $("button#reset_tarefa").click(function(e){
 
 
 
-// $('#envia_xlsx').on("submit", function(){
-//     $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
-//     $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
-//     $("button#dialog").click();
-//     setTimeout(function(){
-//         $("div#dialog-body").hide();
-//         $("div#dialog-footer").hide();
+$('#envia_xlsx').on("submit", function(){
+    $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
+    $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
+    $("button#dialog").click();
+    setTimeout(function(){
+        $("div#dialog-body").hide();
+        $("div#dialog-footer").hide();
  
-//     },13000);
-// });
+    },21000);
+});

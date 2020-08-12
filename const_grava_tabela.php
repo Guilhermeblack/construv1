@@ -406,32 +406,29 @@
 		// $valor =explode("$",$valor)[1];
 		// $valor = utf8_encode($valor);
 
-		// var_dump($valor);
-		// echo '<br> -=-=-=- </br>';
-		$valor = explode("$", $valor)[1];
-		
-		$val = substr($valor,2);
+		if(strstr($valor,"$")){
+			$valor = explode("$", $valor)[1];
+
+			if(!abs($valor[1])){
+				$val = substr($valor,2);
+
+			}else{
+
+				$val = substr($valor,1);
+			}
+			
+
+			// echo $val;
+			// echo '<br> tem cifrao</br>';
+		}else{
+			$val = $valor;
+			// echo $val;
+			// echo '<br> not tem</br>';
+		}
+
 
 	    $aux = str_replace(',', '.', $val);
 
-	    //OBS: vard_dump na $linha para ver como vem a informação
-
-		// if($l = 21){
-		// 	echo strlen($aux);
-			// echo '  <br></br>  ';
-			// var_dump($aux);
-			// die();
-		// }
-		
-		// echo '<br> fim </br>';
-
-		// if($aux == ''){
-		// 	echo 'loop'.$l;
-		// 	var_dump($valor);
-		// 	echo 'tomanocu';
-		// 	var_dump($aux);
-
-		// }
 	    return $aux;
 	}
 
@@ -540,6 +537,8 @@
 
 		$var = [];
 		$vare=[];
+		$vaai=[];
+		$vam=[];
 		foreach ($Sheets as $Index => $Name){// Para percorrer as planilhas do arquivo
 			
 
@@ -613,7 +612,8 @@
 				//pula a linha de exemplo da planilha
 
 	            // Verifico se já passou as linhas de informação no começo do arquivo
-	            if ($registro > 4){
+				$count =0;
+				if ($registro > 4){
 
 	                // Validação dos dados da linha atual, segue abaixo os Index de cada coluna dentro da $linha
 
@@ -628,6 +628,7 @@
 					$valida = 1;
 					
 					// colunas da linha
+
 	                for($i = 0; $i < count($linha); $i++){
 
 
@@ -646,6 +647,7 @@
 
 	                    // Validação do Id do no
 	                    if ($i == 0) {  
+							
 	                        if (empty($linha[$i])) {
 	                            $valida = 0;
 								$problema .= 'id invalido';
@@ -655,14 +657,37 @@
 
 								//indice pae
 								
-								$no['id'] = $linha[$i];
+								$no['id'] = strval($linha[$i]);
+
+								$valid = substr($linha[$i], -1);
+								// echo $valid;
+
 								//trato ocorrencia de numeros sem ponto que vem da planilha
 								if(strlen($no['id']) >= 4){
-									if(!strstr($no['id'], '.')){
-
-										$no['id'] = substr_replace($no['id'], '.',1,0);
+									$l=0;
+									if(!strpos($no['id'], '.')){
+										$l = intval(intval($no['id']) % 2);
+										if($l <> 0){
+											$no['id'] = substr_replace($no['id'], '.',1,0);
+										}
+										
 									}
 								}
+
+
+								// uso o count para contar os 0 da virada do indice
+								$count++;
+								if($count>=10){
+									$no['id'].=0;
+									$count=0;
+								}
+
+								
+
+								// echo $valid;
+								echo $no['id'];
+
+								// die();
 								array_push($vare, [$no['id']]);
 								// echo '<br></br>';
 								
@@ -685,7 +710,7 @@
 								//nome da planilha que vem
 	                            $no['descricao'] = addslashes($linha[$i]);
 								//$no['descricao'] = utf8_decode($linha[$i]);
-								
+								array_push($vam,$no['descricao']);
 								
 								// if(in_array($no['descricao'], $json[0])){
 								// 	// echo 'deixe';
@@ -700,7 +725,9 @@
 	                        if(empty($linha[$i])){
 	                        	$no['qnt'] = '';
 	                        }else {
-	                            $no['qnt'] = floatval($linha[$i]);
+								$no['qnt'] = $linha[$i];
+								
+								array_push($vaai,$no['qnt']);
 	                        }
 	                    }
 
@@ -738,6 +765,7 @@
 	                    }
 
 	                }
+
 
 					
 	                // Verifico se estão preenchidos pelo menos 1 campo de identificação
@@ -824,12 +852,18 @@
 				}
 				
 			}
-			// var_dump($vare);
-			// var_dump($var);
-			// die(); 
+
 			
 	    }
 
+		// var_dump($vaai);
+		// // echo '<br></br>';
+		// var_dump($vam);
+		echo '<br></br>';
+		var_dump($vare);
+		echo '<br></br>';
+		var_dump($var);
+		die(); 
 		
 
 	    $file = $objWriter = PHPExcel_IOFactory::createWriter($tabela_erro, 'Excel2007');
@@ -840,6 +874,24 @@
 
 	    return $retorno;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	function grava_planilha_insumos($arquivo){ // Passando o caminho do arquivo
 

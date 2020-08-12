@@ -76,9 +76,9 @@
 			unset($_FILES["userfile"]);
 			unset($_POST['select_up']);
 			echo 'setTimeout(function(){
-        		$("div#dialog-body").hide();
-				$("div#dialog-footer").hide();
-    		},500);';
+					$("div#dialog-body").hide();
+					$("div#dialog-footer").hide();
+    			},20000);';
 
 			header("Refresh:0; url=const_tabela.php");
 			
@@ -461,10 +461,10 @@
 
 								<button onclick="gera_pdf();" class="btn btn-danger btn-sm" style="background-color: #41863a; color: #FFF; border:none;" >Exportar PDF</button>
 								
-								<button href="#modal-insumo" data-toggle="modal" data-target="#modal-insumo" class="btn btn-warning btn-md" id="add-insumo" style="margin-left:11%;">
+								<!-- <button href="#modal-insumo" data-toggle="modal" data-target="#modal-insumo" class="btn btn-warning btn-md" id="add-insumo" style="margin-left:11%;">
 									<span class="glyphicon glyphicon-plus-sign" style="font-size: 10px;"></span>
 									Adicionar Item
-								</button>
+								</button> -->
 							</div>
 							<div class="col-md-4" >
 								<p>
