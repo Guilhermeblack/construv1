@@ -539,6 +539,7 @@
 		$vare=[];
 		$vaai=[];
 		$vam=[];
+		$count=0;
 		foreach ($Sheets as $Index => $Name){// Para percorrer as planilhas do arquivo
 			
 
@@ -569,7 +570,7 @@
 
 	        foreach ($Reader as $registro => $linha ){  //Para percorrer as linhas dentro da planilha
 
-	            $cont = 0;
+
 
 	            //Verifico se a linha está completamente vazia 
 	            foreach ($linha as $valor) {
@@ -612,7 +613,7 @@
 				//pula a linha de exemplo da planilha
 
 	            // Verifico se já passou as linhas de informação no começo do arquivo
-				$count =0;
+
 				if ($registro > 4){
 
 	                // Validação dos dados da linha atual, segue abaixo os Index de cada coluna dentro da $linha
@@ -628,6 +629,13 @@
 					$valida = 1;
 					
 					// colunas da linha
+
+					// uso o count para contar os 0 da virada do indice
+					$count++;
+					if($count>10){
+
+						$count=1;
+					}
 
 	                for($i = 0; $i < count($linha); $i++){
 
@@ -659,7 +667,7 @@
 								
 								$no['id'] = strval($linha[$i]);
 
-								$valid = substr($linha[$i], -1);
+								$valid = substr($armazena, -1);
 								// echo $valid;
 
 								//trato ocorrencia de numeros sem ponto que vem da planilha
@@ -673,20 +681,23 @@
 										
 									}
 								}
+								if($valid == 9){
 
-
-								// uso o count para contar os 0 da virada do indice
-								$count++;
-								if($count>=10){
+									// echo ' / valid '.$valid.' -=- ';
 									$no['id'].=0;
-									$count=0;
+									// echo $no['id'].' /';
 								}
 
 								
 
-								// echo $valid;
-								echo $no['id'];
+								
 
+								// echo $valid;
+								// echo '<br> \  </br>';
+								// echo $no['id'];
+								// echo '<br> < - >  </br>';
+								// echo $armazena = $no['id'];
+								// echo '<br> \  </br>';
 								// die();
 								array_push($vare, [$no['id']]);
 								// echo '<br></br>';
