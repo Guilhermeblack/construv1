@@ -1046,18 +1046,6 @@ function sleep(milliseconds) {
       }
   });
   
-  $('#envia_xlsx').on("submit", function(){
-        $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
-        $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
-        $("button#dialog").click();
-        setTimeout(function(){
-            $("div#dialog-body").hide();
-            $("div#dialog-footer").hide();
-            window.location.reload(true);
-        },21000);
-    });
-
-
   //Atualiza os campos do select de acordo com a categoria selecionada
   $("select#choice_categoria").change(function(data){
   
@@ -1196,8 +1184,8 @@ function sleep(milliseconds) {
           success: dados => 
           {   
               //Atualizo o id e a tabela do insumo 	                	
-              fn.data.id_insumo_plano = dados.id;
-              fn.data.tabela = dados.tabela;
+                fn.data.id_insumo_plano = dados.id;
+                fn.data.tabela = dados.tabela;
   
                 $("button.close").click();
   
@@ -1966,3 +1954,13 @@ $("select#select_categoria").change(function(data){
   
   
   
+  $('#envia_xlsx').on("submit", function(){
+      $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
+      $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
+      $("button#dialog").click();
+      setTimeout(function(){
+          $("div#dialog-body").hide();
+          $("div#dialog-footer").hide();
+   
+      },21000);
+  });

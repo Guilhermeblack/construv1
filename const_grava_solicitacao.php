@@ -500,6 +500,11 @@
 		$linhas = $_POST['linhas'];
 		$estoque = $_POST['estoque'];
 
+		// var_dump($orcamento);
+		// var_dump($user);
+		// var_dump($linhas);
+		// var_dump($estoque);
+
 		$today = date("d-m-Y"); 
 		$hora = date("H-i-s");
 
@@ -509,6 +514,7 @@
 		}
 
 		echo json_encode(1);
+
 	}else if(isset($_POST['id_insumo']) && isset($_POST['id_deposito'])){  //Rotina para fazer a consulta da quantidade disponivel no estoque de acordo com o Insumo e o estoque escolhido
 		$insumo = $_POST['id_insumo'];
 		$deposito = $_POST['id_deposito'];

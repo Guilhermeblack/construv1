@@ -38,31 +38,33 @@
 	function busca_nome_empreendimento($id_orcamento){
 		include 'conexao.php';
 
-
+		// echo 'id orcaaaa    .'.$id_orcamento;
 		//query ta ok
-		$query = mysqli_query($db, "SELECT empreendimento_cadastro.descricao_empreendimento FROM empreendimento_cadastro INNER JOIN const_orcamento ON empreendimento_cadastro.idempreendimento_cadastro = const_orcamento.id_empreendimento WHERE const_orcamento.id = $id_orcamento")or die(mysqli_query($db));
+		$query = mysqli_query($db, "SELECT empreendimento_cadastro.descricao_empreendimento FROM empreendimento_cadastro INNER JOIN const_orcamento ON empreendimento_cadastro.idempreendimento_cadastro = const_orcamento.id_empreendimento WHERE `const_orcamento`.`id` = ".$id_orcamento."")or die(mysqli_query($db));
 
 
 		if(mysqli_num_rows($query) > 0){
 			$assoc = mysqli_fetch_assoc($query);
-
+			// echo "chamale ".$assoc['descricao_empreendimento'];
 			return $assoc['descricao_empreendimento'];
 		}else{
-			return '';
+			return ' N/E';
 		}
 	}
 
 	function busca_nome_insumo($id_insumo){
 		include 'conexao.php';
 
-		$query = mysqli_query($db, "SELECT `descricao`, `codigo` FROM `const_insumos` WHERE `id`= $id_insumo")or die(mysqli_query($db));
+		// echo 'id ins '.$id_insumo.' <<   ';
+
+		$query = mysqli_query($db, "SELECT `descricao`, `codigo` FROM `const_insumos` WHERE `id`= ".$id_insumo."")or die(mysqli_query($db));
 
 		if(mysqli_num_rows($query) > 0){
 			$assoc = mysqli_fetch_assoc($query);
 
 			return $assoc;
 		}else{
-			return '';
+			return ' N/E';
 		}
 	}
 
@@ -264,20 +266,29 @@
 		$saldo = [];
 
 		
-
-		$query = mysqli_query($db, "SELECT * FROM `const_deposito_entrada` WHERE `id_estoque` = $deposito  ORDER BY id DESC " )or die(mysqli_error($db));
+		// echo ' dep >>'.$deposito.'  >>>';
+		$query = mysqli_query($db, "SELECT * FROM `const_deposito_entrada` WHERE `id_estoque` = ".$deposito."  ORDER BY `id` DESC " )or die(mysqli_error($db));
 		if(mysqli_num_rows($query) > 0){
 
 			while ($assoc = mysqli_fetch_assoc($query)) {
 
 				$total_restante = 0;
 
+
+
+
+
+
+
+
+
+
 				$assoc['nome_empresa'] = busca_nome_empreendimento($assoc['id_orcamento']);
 
 
 				$assoc['insumo'] = busca_nome_insumo($assoc['id_insumo']);
 
-				$assoc['insumo'] = sanitizeString($assoc['insumo']);
+				// $assoc['insumo'] = sanitizeString($assoc['insumo']);
 
 
 				$entrada[] = $assoc;
@@ -322,6 +333,7 @@
 			$dados['extravio'] = $extravio;
 			$dados['saldo'] = $saldo;
 
+			die();
 
 			echo json_encode($dados);
 		}else{

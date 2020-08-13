@@ -1,4 +1,3 @@
-
 <?php 
 	//error_reporting(0);
 	//ini_set(“display_errors”, 0 );
@@ -775,14 +774,34 @@
 	                    
 	                   // var_dump($no);
 
+
+
+
+
+
+
+
+
+					   
+
+					//    mudar todas as colunas  do const item tarefa para 2 > (icone verde)
+
+
 	                    if($tipo_planilha == 1){
     	                    $aux = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."' ,'".$no['valor_uni']."' , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
     	                    
 	                    }elseif($tipo_planilha == 2){
-	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES (".$no['id'].", ".$no['qnt']." , ".$no['uni_medida']." , ".$no['valor_uni']." , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
+	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."', '".$no['valor_uni']."' , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
 	                    }
 	                    
-	                    
+						
+						
+
+
+
+
+
+
 
 	                    mysqli_close($db);
 

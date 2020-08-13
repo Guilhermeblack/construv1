@@ -113,7 +113,7 @@ if(isset($_POST["cliente_id"])){
                                             <option value="">Escolha</option>
                                             <?php 
                                                 include "conexao.php"; 
-                                                $query_amigo="SELECT * FROM cliente where idgrupo = 21  order by nome_cli Asc" ;
+                                                $query_amigo="SELECT * FROM cliente inner join `cliente_tipo` on cliente.idcliente = cliente_tipo.idcliente  where cliente_tipo.idtipo= 12  order by cliente.nome_cli Asc" ;
                                                 
                                                 $executa_query= mysqli_query ($db, $query_amigo) or die ( "Erro ao listar Locatário"); 
 

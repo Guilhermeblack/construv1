@@ -477,7 +477,7 @@
 			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			                <h4 class="modal-title">Subir Planilha de Orçamento</h4>
 			            </div>
-			            <form class="form-action" action="const_tabela.php" method="POST" enctype="multipart/form-data" id="envia_xlsx" name="envia_xlsx">
+			            <form class="form-action" action="const_tabela.php" method="POST" enctype="multipart/form-data" id="envia_xlsx" >
 			            	<div class="modal-body">
 			            		<div class="form-group">
 			            			<input type="hidden" name="id_orcamento" value="" id="id_orcamento">
