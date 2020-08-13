@@ -1,4 +1,3 @@
-
 //Função para abrir várias modals uma depois da outra "Efeito Windows"
 $(document).on('show.bs.modal', '.modal', function (event) {
     var zIndex = 1040 + (10 * $('.modal:visible').length);
@@ -56,9 +55,7 @@ function att_lista_solicitacao(){
 	   					$('tbody#tbody_solicitacao_feita').append(tr);
 
 	   				}
-	   			}else{
-
-				   }
+	   			}
 		   },
 		});
 	}else{
@@ -160,6 +157,7 @@ $('select#select_deposito').change(function(){
 				//Preencho a tabela do saldo de acordo com os dados retornados do banco de dados
 				for(let i = 0; i < dados.saldo.length; i++){
 
+					console.log(dados.saldo);
 					//Verifico se o insumo já existe na tabela do saldo
 					if($('tbody#saldo_material > tr[id-insumo="'+dados.saldo[i].id_insumo+'"]').length){
 

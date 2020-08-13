@@ -148,7 +148,7 @@
 
 
 
-		// request que retorna false ou vazio
+		// retorna apenas orçamentos fechados
 
 		$query = mysqli_query($db, "SELECT const_orcamento.id, const_orcamento.titulo, const_orcamento.status_editar, const_orcamento.data_finalizado FROM const_orcamento INNER JOIN const_sub_empreendimento ON const_orcamento.id_empreendimento = const_sub_empreendimento.id WHERE const_sub_empreendimento.id_empreendimento = $id AND const_orcamento.status_editar = 0")or die(mysqli_error($db));
 

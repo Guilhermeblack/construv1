@@ -307,7 +307,7 @@
                                     <div class="col-md-6" id="titulo_orc">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label for='orcamento' style="color: #000; font-weight:500; font-size: x-small; text-transform: uppercase; ">Selecione o Sub-Empreendimento</label>
+                                                <label for='orcamento' style="color: #000; font-weight:500; font-size: x-small; text-transform: uppercase; ">Selecione o Orçamento</label>
                                             </div>
                                             <div class="col-md-9">
                                                 <select class="form-control" id="orcamento">

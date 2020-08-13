@@ -38,7 +38,7 @@
 	function busca_nome_empreendimento($id_orcamento){
 		include 'conexao.php';
 
-
+		echo 'id orcaaaa    .'.$id_orcamento;
 		//query ta ok
 		$query = mysqli_query($db, "SELECT empreendimento_cadastro.descricao_empreendimento FROM empreendimento_cadastro INNER JOIN const_orcamento ON empreendimento_cadastro.idempreendimento_cadastro = const_orcamento.id_empreendimento WHERE const_orcamento.id = $id_orcamento")or die(mysqli_query($db));
 

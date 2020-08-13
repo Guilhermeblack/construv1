@@ -1046,18 +1046,6 @@ function sleep(milliseconds) {
       }
   });
   
-  $('#envia_xlsx').on("submit", function(){
-        $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
-        $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
-        $("button#dialog").click();
-        setTimeout(function(){
-            $("div#dialog-body").hide();
-            $("div#dialog-footer").hide();
-            window.location.reload(true);
-        },21000);
-    });
-
-
   //Atualiza os campos do select de acordo com a categoria selecionada
   $("select#choice_categoria").change(function(data){
   
@@ -1178,8 +1166,8 @@ function sleep(milliseconds) {
   
           adiciona.push($("input#cad_insumo_cod").val().replace(',' , '.'));
           adiciona.push($("input#cad_insumo_desc").val().toUpperCase());
-          adiciona.push($("select#select_categoria").find('option:selected').val());
-          adiciona.push($("select#select_especie").find('option:selected').val());
+          adiciona.push($("select#choice_categoria").find('option:selected').val());
+          adiciona.push($("select#choice_especie").find('option:selected').val());
   
           //variaveis para alteração do id do insumo na tabela orçamento
           adiciona.push(fn.data.id);
@@ -1196,8 +1184,8 @@ function sleep(milliseconds) {
           success: dados => 
           {   
               //Atualizo o id e a tabela do insumo 	                	
-                fn.data.id_insumo_plano = dados.id;
-                fn.data.tabela = dados.tabela;
+              fn.data.id_insumo_plano = dados.id;
+              fn.data.tabela = dados.tabela;
   
                 $("button.close").click();
   
@@ -1354,39 +1342,7 @@ function sleep(milliseconds) {
   
   
   
-  //Atualiza os campos do select de acordo com a categoria selecionada
-$("select#select_categoria").change(function(data){
-
-	//Pego o elemento selecionado
-	var opcao_select = $(this).find('option:selected').val();
-    let selecione = $('select#select_especie').find('> option[id="selecione"]').clone(true);
-    
-
-
-   // errro aqui estudar o que se passa pae
-
-
-	$.ajax({  
-		url:'const_grava_insumo.php',  
-		method:'POST', 
-		data: {opcao_select:opcao_select},
-        dataType:'json',
-        error: erro => {console.log(0)},
-        success: dados =>
-        { 
-
-            $('select#select_especie').empty();
-            $('select#select_especie').append(selecione);
-
-            for(var i = 0; i < dados.length; i++){
-                $('select#select_especie').append("<option value='"+dados[i]+"'>"+dados[i]+"</option>");
-            }	
-            // console.log(dados);
-			
-		}
-		  
-	});  
-});
+  
   
   
   
@@ -1966,3 +1922,13 @@ $("select#select_categoria").change(function(data){
   
   
   
+  $('#envia_xlsx').on("submit", function(){
+      $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
+      $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
+      $("button#dialog").click();
+      setTimeout(function(){
+          $("div#dialog-body").hide();
+          $("div#dialog-footer").hide();
+   
+      },21000);
+  });

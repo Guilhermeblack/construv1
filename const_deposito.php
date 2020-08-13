@@ -28,6 +28,8 @@
 
 		$query = mysqli_query($db, "INSERT INTO `const_deposito`(`nome`, `rua`, `numero`, `bairro`, `cidade`) VALUES ('$nome', '$rua' ,'$numero', '$bairro', '$cidade')")or die(mysqli_error($db));
 
+		unset($_POST);
+		header("Refresh:0");
 	}
 	
 
