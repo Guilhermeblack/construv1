@@ -827,7 +827,7 @@ function sleep(milliseconds) {
               if(fn.hasChildren()){
   
                   let $tdList = $(fn.tr).find(">td");
-                    console.log($tdList);
+  
                   no.push($tdList.eq(1).text());
                   no.push($tdList.eq(2).text());
   
@@ -854,9 +854,9 @@ function sleep(milliseconds) {
   
           tree_tarefa.expandAll(false);
   
-        //   console.log(nos_material);
-        //   console.log(nos_tarefa);
-        //   console.log(orcamento);
+          console.log(nos_material);
+          console.log(nos_tarefa);
+          console.log(orcamento);
   
           $.ajax({
              url:   'const_grava_tabela.php',
@@ -1046,7 +1046,16 @@ function sleep(milliseconds) {
       }
   });
   
-
+  $('#envia_xlsx').on("submit", function(){
+        $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
+        $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
+        $("button#dialog").click();
+        setTimeout(function(){
+            $("div#dialog-body").hide();
+            $("div#dialog-footer").hide();
+            window.location.reload(true);
+        },21000);
+    });
 
 
   //Atualiza os campos do select de acordo com a categoria selecionada
@@ -1154,16 +1163,7 @@ function sleep(milliseconds) {
   
   
   
-  $('#envia_xlsx').on("submit", function(){
-    $("div#dialog-body").html("<img src='img/loading.gif' width='45' height='45' style='text-align: right;'>");
-    $("div#dialog-footer").html("<h4 class='modal-title' align='center' id='salvar'>Carregando, aguarde!</h4>");
-    $("button#dialog").click();
-    setTimeout(function(){
-        $("div#dialog-body").hide();
-        $("div#dialog-footer").hide();
-        window.location.reload(true);
-    },21000);
-});  
+  
   
   
   
@@ -1288,7 +1288,7 @@ function sleep(milliseconds) {
   
           var adiciona = [];
           var tree = $("#tree").fancytree("getTree");
-          var fn = tree.getActiveNode(), $tdList = $(fn.tr).find(">td");
+          var fn = tree.getActiveNode(), $tdList = $(fn.tr).find("> td");
   
           adiciona.push($("input#cad_plano_cod").val().replace(/,/g , '.'));
           adiciona.push($("input#cad_plano_desc").val().toUpperCase());
@@ -1309,7 +1309,7 @@ function sleep(milliseconds) {
           dataType:'json',  
           success: dados => 
           {   
-            //   console.log('deu baaaaao');
+              console.log('deu baaaaao');
   
               //Atualizo o id e a tabela do insumo 	                	
               fn.data.id_insumo_plano = dados.id;
@@ -1464,7 +1464,7 @@ $("select#select_categoria").change(function(data){
               table_not_editing("orcamentos/"+orcamento+".json");
               */
   
-            //   console.log(id_orcamento, 'orcaenviado');
+              console.log(id_orcamento, 'orcaenviado');
               $.ajax({
                  url:   'const_grava_tabela.php',
                  type:  'POST',

@@ -230,13 +230,15 @@ $('a#medicao').click(function(){
 
 			if(dados != 1){
 
+				let tmed =0;
 				let total = 0;
 				let vlr= 0;
 
 				//monta tabela das mediçoes
 				for(let i in dados){
-					vlr = parseFloat(dados[i].vlr_med);
+					vlr = dados[i].vlr_med.valueOf();
 					console.log(vlr,' vez');
+					console.log(dados[i].vlr_med);
 					//dados ja traz os tudo da lista de medição daquele id
 					total += parseFloat(dados[i].qnt_medida);
 					
@@ -253,13 +255,13 @@ $('a#medicao').click(function(){
 					tr.find('> td').eq(2).text(dados[i].data_medicao);
 					tr.find('> td').eq(3).text(dados[i].qnt_medida);
 					// tr.find('> td').eq(4).text(tot_medido);
-					tr.find('> td').eq(4).text((dados[i].vlr_med).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-					tr.find('> td').eq(5).text((dados[i].qnt_medida * dados[i].vlr_med).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+					tr.find('> td').eq(4).text(parseFloat(vlr).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+					tr.find('> td').eq(5).text((parseFloat(dados[i].qnt_medida) * parseFloat(dados[i].vlr_med)).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
 
 					$('tbody#lista_medicao').append(tr);
 				}
 				// console.log(total);
-				
+				tmed = (total* dados[i].vlr_med);
 
 				total > 0 ? $('span#total').html('<b>'+total+'</b> Pela equipe <b>'+unidade+'</b> no valor de <b>R$'+ parseFloat(total* vlr).toFixed(2))+'</b>': '';
 			}
@@ -319,6 +321,7 @@ $('a#fazer_medicao').click(function(){
 	$('div#modal-medicao').attr('id-tarefa-sub', id_tarefa_sub).modal('show');
 });
 
+
 //Rotina para finalizar uma medicao
 $('a#salva_medicao').click(function(){
 
@@ -356,8 +359,8 @@ $('a#salva_medicao').click(function(){
 						tr.find('> td').eq(1).text(dados[i].nome_cli);
 						tr.find('> td').eq(2).text(dados[i].data_medicao);
 						tr.find('> td').eq(3).text(dados[i].qnt_medida);
-						tr.find('> td').eq(4).text(parseFloat(dados[i].vlr_med).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-						tr.find('> td').eq(5).text(parseFloat(dados[i].vlr_med * dados[i].qnt_medida).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+						tr.find('> td').eq(4).text(dados[i].vlr_med.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+						tr.find('> td').eq(5).text((dados[i].vlr_med * dados[i].qnt_medida).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
 						// tr.find('> td').eq(6).text(dados[i].vlr_total_medicoes);
 
 						$('tbody#lista_medicao').append(tr);
