@@ -50,7 +50,7 @@
 
 		$valor_tarefa = str_replace('R$', '', $_POST['valor_tarefa']);
 		$valor_tarefa = str_replace(',', '.', $valor_tarefa); 
-		$valor_tarefa = substr($valor_tarefa, 2);
+		// $valor_tarefa = substr($valor_tarefa, 2);
 
 		$valor_total = str_replace('R$', '', '0,00');
 		$qnt_a_fazer = 'Indefinido';
@@ -58,7 +58,7 @@
 		if($_POST['valor_total']){
 			$valor_total = str_replace('R$', '', $_POST['valor_total']);
 			$valor_total = str_replace(',', '.', $valor_total); 
-			$valor_total = substr($valor_total, 2);
+			// $valor_total = substr($valor_total, 2);
 
 		}
 		
@@ -204,7 +204,7 @@
 		$query = mysqli_query($db, "SELECT * FROM `const_medicao` WHERE `id_tarefa_sub` = $id_tarefa")or die(mysqli_error($db));
 		$query2 = mysqli_query($db, "SELECT valor_tarefa FROM `const_tarefa_sub_empre` WHERE `id` = $id_tarefa")or die(mysqli_eror($db));
 		$query2 = mysqli_fetch_assoc($query2);
-		$preco_med = floatval($query2['valor_tarefa']);
+		$preco_med = $query2['valor_tarefa'];
 
 		if(mysqli_num_rows($query) > 0){
 
@@ -218,7 +218,7 @@
 
 				$assoc['vlr_med'] = $preco_med;
 				$assoc['tot_medido'] += floatval($assoc['qnt_medida']);
-				$assoc['vlr_total_medicoes']+= floatval($assoc['vlr_med']) * floatval($assoc['tot_medido']);
+				$assoc['vlr_total_medicoes']+= (floatval($assoc['vlr_med']) * abs($assoc['tot_medido']));
 				$assoc['nome_cli'] = busca_nome_usuario($assoc['id_user']);
 				$dados[] = $assoc;
 			}
@@ -265,7 +265,7 @@
 			if($assoc['total_a_fazer'] > 0){
 
 				$total = (floatval($assoc["total_a_fazer"]) - floatval($qnt) );
-				if(total > 0){
+				if($total > 0){
 
 					$query = mysqli_query($db, "UPDATE `const_tarefa_sub_empre` SET `total_a_fazer`= $total WHERE `id` = $tarefa ")or die(mysqli_eror($db));
 
@@ -293,9 +293,9 @@
 						$assoc['vlr_total_medicoes'] = 0;
 						$assoc['tot_medido']=0;
 					}
-					$assoc['vlr_med'] = floatval($vlr['valor_tarefa']);
+					$assoc['vlr_med'] = abs($vlr['valor_tarefa']);
 					$assoc['tot_medido'] += floatval($assoc['qnt_medida']);
-					$assoc['vlr_total_medicoes'] = floatval($vlr['valor_tarefa']) * $assoc['tot_medido'];
+					$assoc['vlr_total_medicoes'] = ($assoc['vlr_med'] * $assoc['tot_medido']);
 					$assoc['nome_cli'] = busca_nome_usuario($assoc['id_user']);
 					$dados[] = $assoc;
 				}

@@ -214,8 +214,6 @@ $('a#medicao').click(function(){
 
 	$('div#medicao_tarefa').attr('id-tarefa-sub', id_tarefa);
 
-	console.log(id_tarefa);
-
 	$.ajax({  
 		url:'const_grava_gerencia.php',  
 		method:'POST', 
@@ -238,9 +236,9 @@ $('a#medicao').click(function(){
 
 				//monta tabela das mediçoes
 				for(let i in dados){
-					vlr = dados[i].vlr_med;
+					vlr = dados[i].vlr_med.valueOf();
 					console.log(vlr,' vez');
-					console.log(typeof(dados[i].vlr_med));
+					console.log(dados[i].vlr_med);
 					//dados ja traz os tudo da lista de medição daquele id
 					total += parseFloat(dados[i].qnt_medida);
 					
@@ -257,7 +255,7 @@ $('a#medicao').click(function(){
 					tr.find('> td').eq(2).text(dados[i].data_medicao);
 					tr.find('> td').eq(3).text(dados[i].qnt_medida);
 					// tr.find('> td').eq(4).text(tot_medido);
-					tr.find('> td').eq(4).text(parseFloat(dados[i].vlr_med).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+					tr.find('> td').eq(4).text(parseFloat(vlr).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
 					tr.find('> td').eq(5).text((parseFloat(dados[i].qnt_medida) * parseFloat(dados[i].vlr_med)).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
 
 					$('tbody#lista_medicao').append(tr);
@@ -265,7 +263,7 @@ $('a#medicao').click(function(){
 				// console.log(total);
 				tmed = (total* dados[i].vlr_med);
 
-				total > 0 ? $('span#total').html('<b>'+total+'</b> Pela equipe <b>'+unidade+'</b> no valor de <b>R$'+ (total* vlr)+'</b>'): '';
+				total > 0 ? $('span#total').html('<b>'+total+'</b> Pela equipe <b>'+unidade+'</b> no valor de <b>R$'+ parseFloat(total* vlr).toFixed(2))+'</b>': '';
 			}
 		},
 		error: erro => {console.log(0)}  

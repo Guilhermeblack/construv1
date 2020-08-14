@@ -807,7 +807,7 @@ function sleep(milliseconds) {
                   no.push(fn.data.id_insumo_plano);
                   no.push(fn.data.tabela);
               }
-              // console.log('ele >>>', no);
+              console.log('ele >>>', no);
               // console.log('orcam >> ', orcamento);
               nos_material.push(no);
           });
@@ -826,8 +826,9 @@ function sleep(milliseconds) {
               no =  new Array();
               if(fn.hasChildren()){
   
+                // pega valores de pai
                   let $tdList = $(fn.tr).find(">td");
-                    console.log($tdList);
+
                   no.push($tdList.eq(1).text());
                   no.push($tdList.eq(2).text());
   
@@ -835,8 +836,8 @@ function sleep(milliseconds) {
                   no.push(fn.data.id_tarefa_plano);
                   no.push(fn.data.tabela);
               }else{
+
                   let $tdList = $(fn.tr).find(">td");
-  
                   no.push($tdList.eq(1).text());
                   no.push($tdList.eq(2).text());
                   no.push($tdList.eq(3).find("input").val());
@@ -854,7 +855,7 @@ function sleep(milliseconds) {
   
           tree_tarefa.expandAll(false);
   
-        //   console.log(nos_material);
+        //   console.log(no);
         //   console.log(nos_tarefa);
         //   console.log(orcamento);
   
@@ -1288,8 +1289,16 @@ function sleep(milliseconds) {
   
           var adiciona = [];
           var tree = $("#tree").fancytree("getTree");
-          var fn = tree.getActiveNode(), $tdList = $(fn.tr).find(">td");
+
+          
+          console.log(tree.getActiveNode());
+          var fn = tree.getActiveNode();
+          var $tdList = $(fn.tr).find("> td");
+          
+          
   
+        //   console.log(fn);
+
           adiciona.push($("input#cad_plano_cod").val().replace(/,/g , '.'));
           adiciona.push($("input#cad_plano_desc").val().toUpperCase());
   

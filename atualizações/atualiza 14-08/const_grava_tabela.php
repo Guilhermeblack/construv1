@@ -333,7 +333,7 @@
 				case 2:
 					$aux = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `id` = ".$executa_query['id_tarefa_plano']."")or die(mysqli_error($db));
 					$aux = mysqli_fetch_assoc($aux);
-					$executa_query['pasta'] = $aux['descricao'];
+					$executa_query['pasta'] = $aux['titulo'];
 					break;
 				case 3:
 					$aux = mysqli_query($db, "SELECT * FROM `const_temp` WHERE `id` = ".$executa_query['id_tarefa_plano']."")or die(mysqli_error($db));
@@ -1581,7 +1581,7 @@
 
 
 	// apagar e inserir os dados da tabela
-    if(isset($_POST['nos_material'])){
+    if(isset($_POST['orcamento'])){
 
 
 		// id do orcamento
@@ -1598,11 +1598,11 @@
 		// echo count($nos_material);
 		// echo ' ---------------------------------- ';
 		//Rotina para fazer a gravacao dos Materiais
-		$query = mysqli_query($db, "DELETE FROM `tabela_orcamento` WHERE `id_orcamento` = ".$orcamento." AND `status` = 1")or die(mysqli_error($db));;
-		$cnt=0;
+		$query = mysqli_query($db, "DELETE FROM `tabela_orcamento` WHERE `id_orcamento` = ".$orcamento." AND `status` = 1")or die(mysqli_error($db));
+		// $cnt=0;
 		foreach($nos_material as $key => $value) {
 
-			$cnt++;
+			// $cnt++;
 			// echo ' ---> '.$cnt;
 			// echo '<br>  0000  </br>';
 			if(count($value) < 6){
@@ -1614,10 +1614,10 @@
 
 				$value[1] = addslashes($value[1]);
 
-				if(empty($value[4]) or empty($value[3])){
+				if(!empty($value[4]) or !empty($value[3])){
 
-					$query = mysqli_query($db, "SELECT id FROM `const_planocontas` WHERE `descricao` = '$value[1]' ")or die(mysqli_error($db));
-
+					$query = mysqli_query($db, "SELECT id FROM `const_planocontas` WHERE `descricao` = '".$value[1]."' ")or die(mysqli_error($db));
+					
 					if(mysqli_num_rows($query) > 0){
 						//plano de contas, se for veradeiro é plano
 						$aux_query = mysqli_fetch_assoc($query);
@@ -1626,8 +1626,7 @@
 						$value[4] = 1;
 
 					}else{
-						// indica que e insumo
-						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('$value[1]')")or die(mysqli_error($db));
+						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('".$value[1]."')")or die(mysqli_error($db));
 
 						$value[3] = mysqli_insert_id($db);
 						$value[4] = 3;
@@ -1640,26 +1639,17 @@
 
 				//Status sempre 1, pois só salvo os itens cotados
 				$query = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) 
-										 VALUES ('$value[0]', '' , '' , '' ,$value[2] , $value[3], $value[4], 1)")or die(mysqli_error($db));
+										 VALUES ('".$value[0]."', '' , '' , '' ,".$value[2]." , ".$value[3].", ".$value[4].", 1)")or die(mysqli_error($db));
 			}else{
-
-
-
-
-
-
-
-
-
 				
 				$value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
-				if(empty($value[6]) or empty($value[7])){
+
+				if(!empty($value[6]) or !empty($value[7])){
 
 					$query = mysqli_query($db, "SELECT id FROM `const_insumos` WHERE `descricao` = '".$value[1]."' ")or die(mysqli_error($db));
-
 					if(mysqli_num_rows($query) > 0){
 						$aux_query = mysqli_fetch_assoc($query);
 
@@ -1676,7 +1666,7 @@
 				// var_dump($value);
 				//Status sempre 1, pois só salvo os itens cotados
 				$query = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) 
-										 VALUES ('$value[0]', '$value[2]' , '$value[3]' , '$value[4]' ,$value[5] , $value[6], $value[7], 1)")or die(mysqli_error($db));
+										 VALUES ('".$value[0]."', '".$value[2]."' , '".$value[3]."' , '".$value[4]."' ,".$value[5]." , ".$value[6].", ".$value[7].", 1)")or die(mysqli_error($db));
 
 
 
@@ -1696,35 +1686,44 @@
 		$query = mysqli_query($db, "DELETE FROM `const_item_tarefa_orcamento` WHERE `id_orcamento` = ".$orcamento." AND `status` = 1")or die(mysqli_error($db));;
 
 		foreach($nos_tarefa as $key => $value) {
-			//var_dump(count($value));
+			// var_dump($value);
 
 			if(count($value) < 6){
 
 				$value[1]= strtoupper($value[1]);
 
+
 				$value[1] = addslashes($value[1]);
+				// echo ' 1 1 1 1 1 1 11 ';
+				// var_dump($value[1]);
 
-				if(empty($value[3]) && empty($value[4])){
+				if(!empty($value[3]) && !empty($value[4])){
 
-					$query = mysqli_query($db, "SELECT id FROM `const_planocontas` WHERE `descricao` = '".$value[1]."' ")or die(mysqli_error($db));
-
+					
+					$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE `descricao` = '".$value[1]."'")or die(mysqli_error($db));
 					if(mysqli_num_rows($query) > 0){
 						$aux_query = mysqli_fetch_assoc($query);
-
+						echo 'vai fdp';
 						$value[3] = $aux_query['id'];
 						$value[4] = 1;
 					}else{
+
+						// echo ' tame '.$value[1];
+						// die();
 						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('".$value[1]."')")or die(mysqli_error($db));
 
+						// var_dump(mysqli_insert_id($db));
+						
 						$value[3] = mysqli_insert_id($db);
 						$value[4] = 3;
 					}
+					// die();
 				}
 
 				// echo "1";
 				// echo '<br> 3 </br>';
 				// var_dump($value);
-				$aux = "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$value[0]."','','','',".$value[2].", ".$value[3].", ".$value[4].", 1)";
+				// $aux = "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$value[0]."','','','',".$value[2].", ".$value[3].", ".$value[4].", 1)";
 
 				//echo $aux;
 				//Status sempre 1, pois só salvo os itens cotados
@@ -1738,25 +1737,26 @@
 
 				$value[1] = addslashes($value[1]);
 
-				if(empty($value[6]) && empty($value[7])){
+				// echo ' 2 2 2 2 2 2';
+				// var_dump($value[1]);
+				if(!empty($value[6]) && !empty($value[7])){
 
-					$query = mysqli_query($db, "SELECT `id` FROM `const_tarefas` WHERE `titulo` = '$value[1]' ")or die(mysqli_error($db));
-
+					$query = mysqli_query($db, "SELECT `id` FROM `const_tarefas` WHERE `titulo` = '".$value[1]."'")or die(mysqli_error($db));
 					if(mysqli_num_rows($query) > 0){
 						$aux_query = mysqli_fetch_assoc($query);
 
 						$value[6] = $aux_query['id'];
 						$value[7] = 2;
 					}else{
-						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('$value[1]')")or die(mysqli_error($db));
+						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('".$value[1]."')")or die(mysqli_error($db));
 
 						$value[6] = mysqli_insert_id($db);
 						$value[7] = 3;
 					}
 				}
 
-				echo '<br> 4 </br>';
-				var_dump($value);
+				// echo '<br> 4 </br>';
+				// var_dump($value);
 				// echo "2";
 				//Status sempre 1, pois só salvo os itens cotados
 				$query = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$value[0]."', '".$value[2]."' , '".$value[3]."' , '".$value[4]."' , ".$value[5]." , ".$value[6].", ".$value[7].", 1)")or die(mysqli_error($db));
@@ -1767,6 +1767,20 @@
 		// die();
 		monta_json($orcamento);
 	}		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// Cadastra um novo orçamento
 	if(isset($_POST['plano_desc'])){
 
