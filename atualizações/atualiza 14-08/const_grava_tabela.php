@@ -756,25 +756,8 @@
 	                    // Faço a verificação paa saber a qual tabela o insumo pertence
 	                    }else{
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	                    	if($tipo_planilha == 2){
-	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = `".$no['cod_insumo']."` OR `titulo` = `".$no['descricao']."`");
+	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = '".$no['cod_insumo']."' OR `titulo` = '".$no['descricao']."'");
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -786,11 +769,7 @@
 	                    			$tabela = 3;
 	                    		}
 	                    	}else{
-<<<<<<< HEAD
-	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = `".$no['cod_insumo']."` OR `descricao` = `".$no['descricao']."`");
-=======
 	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = '".$no['cod_insumo']."' OR `descricao` = '".$no['descricao']."'");
->>>>>>> 90a42d70ffd63241cf146edd53beb29cb9dcd265
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -1631,17 +1610,11 @@
 				// var_dump($value);
 
 
-				// $value[1]= strtoupper($value[1]);
+				$value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
-<<<<<<< HEAD
-				if(empty($value[4]) or empty($value[3])){
-
-					$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE `descricao` = `".$value[1]."` ")or die(mysqli_error($db));
-=======
 				if(!empty($value[4]) or !empty($value[3])){
->>>>>>> 90a42d70ffd63241cf146edd53beb29cb9dcd265
 
 					$query = mysqli_query($db, "SELECT id FROM `const_planocontas` WHERE `descricao` = '".$value[1]."' ")or die(mysqli_error($db));
 					
@@ -1653,12 +1626,7 @@
 						$value[4] = 1;
 
 					}else{
-<<<<<<< HEAD
-						// indica que e insumo
-						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES (`".$value[1]."`)")or die(mysqli_error($db));
-=======
 						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('".$value[1]."')")or die(mysqli_error($db));
->>>>>>> 90a42d70ffd63241cf146edd53beb29cb9dcd265
 
 						$value[3] = mysqli_insert_id($db);
 						$value[4] = 3;
@@ -1674,16 +1642,12 @@
 										 VALUES ('".$value[0]."', '' , '' , '' ,".$value[2]." , ".$value[3].", ".$value[4].", 1)")or die(mysqli_error($db));
 			}else{
 				
-				// $value[1]= strtoupper($value[1]);
+				$value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
 
-<<<<<<< HEAD
-					$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `descricao` = `".$value[1]."` ")or die(mysqli_error($db));
-=======
 				if(!empty($value[6]) or !empty($value[7])){
->>>>>>> 90a42d70ffd63241cf146edd53beb29cb9dcd265
 
 					$query = mysqli_query($db, "SELECT id FROM `const_insumos` WHERE `descricao` = '".$value[1]."' ")or die(mysqli_error($db));
 					if(mysqli_num_rows($query) > 0){
@@ -1692,7 +1656,7 @@
 						$value[6] = $aux_query['id'];
 						$value[7] = 2;
 					}else{
-						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES (`".$value[1]."`)")or die(mysqli_error($db));
+						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('".$value[1]."')")or die(mysqli_error($db));
 
 						$value[6] = mysqli_insert_id($db);
 						$value[7] = 3;
@@ -1726,20 +1690,14 @@
 
 			if(count($value) < 6){
 
-				// $value[1]= strtoupper($value[1]);
+				$value[1]= strtoupper($value[1]);
 
 
 				$value[1] = addslashes($value[1]);
 				// echo ' 1 1 1 1 1 1 11 ';
 				// var_dump($value[1]);
 
-<<<<<<< HEAD
-				if(empty($value[3]) && empty($value[4])){
-
-					$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE `descricao` = '".$value[1]."' ")or die(mysqli_error($db));
-=======
 				if(!empty($value[3]) && !empty($value[4])){
->>>>>>> 90a42d70ffd63241cf146edd53beb29cb9dcd265
 
 					
 					$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE `descricao` = '".$value[1]."'")or die(mysqli_error($db));
@@ -1775,19 +1733,13 @@
 
 			}else{
 
-				// $value[1]= strtoupper($value[1]);
+				$value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
-<<<<<<< HEAD
-				if(empty($value[6]) && empty($value[7])){
-
-					$query = mysqli_query($db, "SELECT `id` FROM `const_tarefas` WHERE `titulo` = '".$value[1]."' ")or die(mysqli_error($db));
-=======
 				// echo ' 2 2 2 2 2 2';
 				// var_dump($value[1]);
 				if(!empty($value[6]) && !empty($value[7])){
->>>>>>> 90a42d70ffd63241cf146edd53beb29cb9dcd265
 
 					$query = mysqli_query($db, "SELECT `id` FROM `const_tarefas` WHERE `titulo` = '".$value[1]."'")or die(mysqli_error($db));
 					if(mysqli_num_rows($query) > 0){

@@ -201,30 +201,24 @@
 		include 'conexao.php';
 		$id_tarefa = $_POST['lista_medicao'];
 
-		// echo $id_tarefa;
+		$query = mysqli_query($db, "SELECT * FROM `const_medicao` WHERE `id_tarefa_sub` = $id_tarefa")or die(mysqli_error($db));
+		$query2 = mysqli_query($db, "SELECT valor_tarefa FROM `const_tarefa_sub_empre` WHERE `id` = $id_tarefa")or die(mysqli_eror($db));
+		$query2 = mysqli_fetch_assoc($query2);
+		$preco_med = $query2['valor_tarefa'];
 
-		// chama a mediçao de acordo com a tarefa
-		$query = mysqli_query($db, "SELECT * FROM `const_medicao` WHERE `id_tarefa_sub` = ".$id_tarefa."")or die(mysqli_error($db));
-		$query2 = mysqli_query($db, "SELECT `valor_tarefa` FROM `const_tarefa_sub_empre` WHERE `id` = ".$id_tarefa."")or die(mysqli_error($db));
-		$quer = mysqli_fetch_assoc($query2);
-		$preco_med = utf8_encode($quer['valor_tarefa']);
-		var_dump($preco_med);
 		if(mysqli_num_rows($query) > 0){
 
 			$dados = [];
 
 			while ($assoc = mysqli_fetch_assoc($query)) {
-
 				if(empty($assoc['tot_medido']) || empty($assoc['vlr_total_medicoes'])){
-					$assoc['vlr_total_medicoes'] =0;
-					$assoc['tot_medido'] =0;
+					$assoc['vlr_total_medicoes'] = 0;
+					$assoc['tot_medido']=0;
 				}
-				$assoc['vlr_med'] = $preco_med;
-				$assoc['tot_medido'] += number_format($assoc['qnt_medida'], 2);
-				var_dump(floatval($assoc['vlr_med']));
-				var_dump($assoc['tot_medido']);
 
-				$assoc['vlr_total_medicoes']+= (floatval($assoc['vlr_med']) * floatval($assoc['tot_medido']));
+				$assoc['vlr_med'] = $preco_med;
+				$assoc['tot_medido'] += floatval($assoc['qnt_medida']);
+				$assoc['vlr_total_medicoes']+= (floatval($assoc['vlr_med']) * abs($assoc['tot_medido']));
 				$assoc['nome_cli'] = busca_nome_usuario($assoc['id_user']);
 				$dados[] = $assoc;
 			}
@@ -262,7 +256,7 @@
 		$user = $_POST['user_medida'];
 		$tarefa =  $_POST['tarefa'];
 
-		$query = mysqli_query($db, "SELECT * FROM `const_tarefa_sub_empre` WHERE `id` = $tarefa")or die(mysqli_error($db));
+		$query = mysqli_query($db, "SELECT * FROM `const_tarefa_sub_empre` WHERE `id` = $tarefa")or die(mysqli_eror($db));
 
 		if(mysqli_num_rows($query)){
 
@@ -273,7 +267,7 @@
 				$total = (floatval($assoc["total_a_fazer"]) - floatval($qnt) );
 				if($total > 0){
 
-					$query = mysqli_query($db, "UPDATE `const_tarefa_sub_empre` SET `total_a_fazer`= $total WHERE `id` = $tarefa ")or die(mysqli_error($db));
+					$query = mysqli_query($db, "UPDATE `const_tarefa_sub_empre` SET `total_a_fazer`= $total WHERE `id` = $tarefa ")or die(mysqli_eror($db));
 
 				}
 
