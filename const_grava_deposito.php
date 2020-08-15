@@ -333,7 +333,7 @@
 			$dados['extravio'] = $extravio;
 			$dados['saldo'] = $saldo;
 
-			die();
+			// die();
 
 			echo json_encode($dados);
 		}else{
