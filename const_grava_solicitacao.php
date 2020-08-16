@@ -566,24 +566,30 @@
 
 		$id_solicitacao = $_POST['lista_oc_emitidas'];
 
-		$query = mysqli_query($db, "SELECT * FROM `const_solicitacao_oc` WHERE `id_solicitacao` = $id_solicitacao")or die(mysqli_error($db));
+		$query = mysqli_query($db, "SELECT * FROM `const_solicitacao_oc` WHERE `id_solicitacao` = ".$id_solicitacao."")or die(mysqli_error($db));
 
 		if(mysqli_num_rows($query) > 0){
 			$dados = [];
 
 			while ($assoc = mysqli_fetch_assoc($query)) {
 
-				$query_oc = mysqli_query($db, "SELECT * FROM `const_ordem_compra` WHERE `id`= ".$assoc['id_oc']." ")or die(mysqli_error($db));
+				$query_oc = mysqli_query($db, "SELECT * FROM `const_ordem_compra` WHERE `id`= ".$assoc['id_oc']."")or die(mysqli_error($db));
 
+				$assoc_oc['foto_recibo'] = '';
 				if(mysqli_num_rows($query_oc) > 0){
 
 					$assoc_oc = mysqli_fetch_assoc($query_oc);
 
-					$query_recebimento = mysqli_query($db, "SELECT `id` FROM `const_recebimento_material` WHERE `id_oc` = ".$assoc_oc['id']." ")or die(mysqli_num_rows($db));
+					// var_dump($assoc_oc['id']);
+					$query_recebimento = mysqli_query($db, "SELECT `id` FROM `const_recebimento_material` WHERE `id_oc` = ".$assoc_oc['id']."")or die(mysqli_num_rows($db));
 
 					$assoc_recebimento = mysqli_fetch_assoc($query_recebimento);
-
-					$assoc_oc['foto_recibo'] = $assoc_recebimento['id'];
+					if(isset($assoc_recebimento)){
+						$assoc_oc['foto_recibo'] = $assoc_recebimento['id'];
+					}else{
+						$assoc_oc['foto_recibo']= '';
+					}
+					
 
 					$assoc_oc['nome_fornecedor'] = busca_nome_fornecedor($assoc_oc['id_fornecedor']);
 
