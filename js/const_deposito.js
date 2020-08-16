@@ -13,6 +13,7 @@ function att_lista_solicitacao(){
 
 	let deposito_solicitacao = deposito;
 
+	console.log(deposito);
 	if(deposito != -1){
 		$.ajax({
 		   url:   'const_grava_deposito.php',
