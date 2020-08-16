@@ -238,14 +238,14 @@ $('a#medicao').click(function(){
 
 				//monta tabela das mediçoes
 				for(let i in dados){
-					vlr = dados[i].vlr_med;
-					console.log(vlr,' vez');
-					console.log(typeof(dados[i].vlr_med));
+
 					//dados ja traz os tudo da lista de medição daquele id
-					total += parseFloat(dados[i].qnt_medida);
+					total += Number(dados[i].qnt_medida);
 					
+					vlr = Number(dados[i].vlr_med);
 					// tot_medido += dados[i].qnt_medida;
 					// dados[i].qnt_medida ultima medida
+					console.log(parseInt(vlr));
 
 
 					let tr = $('tbody#lista_medicao > tr.hidden').clone(true).removeClass('hidden');
@@ -257,15 +257,16 @@ $('a#medicao').click(function(){
 					tr.find('> td').eq(2).text(dados[i].data_medicao);
 					tr.find('> td').eq(3).text(dados[i].qnt_medida);
 					// tr.find('> td').eq(4).text(tot_medido);
-					tr.find('> td').eq(4).text(parseFloat(dados[i].vlr_med).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-					tr.find('> td').eq(5).text((parseFloat(dados[i].qnt_medida) * parseFloat(dados[i].vlr_med)).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+
+					tr.find('> td').eq(4).text(vlr.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+					tr.find('> td').eq(5).text((dados[i].qnt_medida * vlr).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
 
 					$('tbody#lista_medicao').append(tr);
 				}
 				// console.log(total);
-				tmed = (total* dados[i].vlr_med);
+				tmed = total * vlr;
 
-				total > 0 ? $('span#total').html('<b>'+total+'</b> Pela equipe <b>'+unidade+'</b> no valor de <b>R$'+ (total* vlr)+'</b>'): '';
+				total > 0 ? $('span#total').html('<b>'+total+'</b> Pela equipe <b>'+unidade+'</b> no valor de <b>'+ (total* vlr).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+'</b>'): '';
 			}
 		},
 		error: erro => {console.log(0)}  
