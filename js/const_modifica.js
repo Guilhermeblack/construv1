@@ -245,7 +245,7 @@ $('a#medicao').click(function(){
 					vlr = Number(dados[i].vlr_med);
 					// tot_medido += dados[i].qnt_medida;
 					// dados[i].qnt_medida ultima medida
-					console.log(parseInt(vlr));
+					console.log(vlr);
 
 
 					let tr = $('tbody#lista_medicao > tr.hidden').clone(true).removeClass('hidden');
@@ -264,7 +264,7 @@ $('a#medicao').click(function(){
 					$('tbody#lista_medicao').append(tr);
 				}
 				// console.log(total);
-				tmed = total * vlr;
+				// tmed = total * vlr;
 
 				total > 0 ? $('span#total').html('<b>'+total+'</b> Pela equipe <b>'+unidade+'</b> no valor de <b>'+ (total* vlr).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+'</b>'): '';
 			}
