@@ -657,7 +657,7 @@
 											if(mysqli_num_rows($query) > 0){
 												while ($assoc = mysqli_fetch_assoc($query)) {
 													?>
-													<option value="<?php echo $assoc['idempreendimento_cadastro']; ?>"><?php echo $assoc['descricao_empreendimento'];?></option>
+													<option value="<?php echo $assoc['idempreendimento_cadastro'] ?>"><?php echo $assoc['descricao_empreendimento']?></option>
 													<?php
 												}
 											}

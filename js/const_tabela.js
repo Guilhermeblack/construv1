@@ -1411,6 +1411,9 @@ $("select#select_categoria").change(function(data){
           plano_desc.push($("select#select_empreendimento > option:selected").val());
           plano_desc.push($("select#select_sub_empreendimento > option:selected").val());
   
+
+        //   console.log(plano_desc);
+        //   debugger;
           $.ajax({  
               url:'const_grava_tabela.php',  
               method:'POST', 

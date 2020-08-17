@@ -756,8 +756,25 @@
 	                    // Faço a verificação paa saber a qual tabela o insumo pertence
 	                    }else{
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	                    	if($tipo_planilha == 2){
-	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = '".$no['cod_insumo']."' OR `titulo` = '".$no['descricao']."'");
+	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = `".$no['cod_insumo']."` OR `titulo` = `".$no['descricao']."`");
 
 	                    		if(mysqli_num_rows($query) > 0){
 	                    			$aux = mysqli_fetch_assoc($query);
@@ -1610,7 +1627,7 @@
 				// var_dump($value);
 
 
-				$value[1]= strtoupper($value[1]);
+				// $value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
@@ -1642,7 +1659,7 @@
 										 VALUES ('".$value[0]."', '' , '' , '' ,".$value[2]." , ".$value[3].", ".$value[4].", 1)")or die(mysqli_error($db));
 			}else{
 				
-				$value[1]= strtoupper($value[1]);
+				// $value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
@@ -1656,7 +1673,7 @@
 						$value[6] = $aux_query['id'];
 						$value[7] = 2;
 					}else{
-						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES ('".$value[1]."')")or die(mysqli_error($db));
+						$query = mysqli_query($db, "INSERT INTO `const_temp`(`descricao`) VALUES (`".$value[1]."`)")or die(mysqli_error($db));
 
 						$value[6] = mysqli_insert_id($db);
 						$value[7] = 3;
@@ -1690,7 +1707,7 @@
 
 			if(count($value) < 6){
 
-				$value[1]= strtoupper($value[1]);
+				// $value[1]= strtoupper($value[1]);
 
 
 				$value[1] = addslashes($value[1]);
@@ -1733,12 +1750,11 @@
 
 			}else{
 
-				$value[1]= strtoupper($value[1]);
+				// $value[1]= strtoupper($value[1]);
 
 				$value[1] = addslashes($value[1]);
 
-				// echo ' 2 2 2 2 2 2';
-				// var_dump($value[1]);
+
 				if(!empty($value[6]) && !empty($value[7])){
 
 					$query = mysqli_query($db, "SELECT `id` FROM `const_tarefas` WHERE `titulo` = '".$value[1]."'")or die(mysqli_error($db));
@@ -1787,9 +1803,12 @@
 		$aux = $_POST['plano_desc'];
 
 		$aux[0] = sanitizeString($aux[0]);
+		$aux[0] = addslashes($aux[0]);
 
+		// var_dump($aux);
+		// die();
 
-		$query = mysqli_query($db, "INSERT INTO `const_orcamento`( `titulo`, `id_empreendimento`, `status_editar`, `data_finalizado`) VALUES ('$aux[0]', $aux[2], 1, '') ")or die(mysqli_error($db));
+		$query = mysqli_query($db, "INSERT INTO `const_orcamento`( `titulo`, `id_empreendimento`, `status_editar`, `data_finalizado`) VALUES ('$aux[0]', $aux[1], 1, '') ")or die(mysqli_error($db));
 
 		$aux = mysqli_insert_id($db);
 

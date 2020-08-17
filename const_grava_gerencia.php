@@ -211,24 +211,47 @@
 		$query = mysqli_query($db, "SELECT * FROM `const_medicao` WHERE `id_tarefa_sub` = ".$id_tarefa."")or die(mysqli_error($db));
 		$query2 = mysqli_query($db, "SELECT `valor_tarefa` FROM `const_tarefa_sub_empre` WHERE `id` = ".$id_tarefa."")or die(mysqli_error($db));
 		$quer = mysqli_fetch_assoc($query2);
-		$preco_med = $quer['valor_tarefa'];
-		var_dump($preco_med);
+		$vlr= $quer['valor_tarefa'];
+		$pos = strrpos($vlr, '.');
+
+		if($pos !== false)
+		{
+
+			// $vlr = substr_replace($vlr,',',$pos,1 );
+			$npontos = substr_count($vlr,'.');
+			if($npontos>1){
+				$vlr = substr($vlr,2);
+				
+				$vlr =  preg_replace("/[^0-9]/", "",$vlr);
+				$vlr = substr_replace($vlr,'.', -2, 0);
+			}
+			
+			// var_dump($vlr);
+			// echo " | ";
+			
+
+				// var_dump(abs($vlr));
+
+				// echo " | ";
+		}
 		if(mysqli_num_rows($query) > 0){
 
 			$dados = [];
 
 			while ($assoc = mysqli_fetch_assoc($query)) {
 
-				if(empty($assoc['tot_medido']) || empty($assoc['vlr_total_medicoes'])){
+				if(empty($assoc['vlr_total_medicoes'])){
 					$assoc['vlr_total_medicoes'] =0;
+				}
+
+				if(empty($assoc['tot_medido'])){
 					$assoc['tot_medido'] =0;
 				}
-				$assoc['vlr_med'] = $preco_med;
-				$assoc['tot_medido'] += number_format($assoc['qnt_medida'], 2);
-				var_dump($assoc['vlr_med']);
-				var_dump($assoc['tot_medido']);
+				
+				$assoc['vlr_med'] = $vlr;
+				$assoc['tot_medido'] += abs($assoc['qnt_medida']);
 
-				$assoc['vlr_total_medicoes']+= (floatval($assoc['vlr_med']) * floatval($assoc['tot_medido']));
+				$assoc['vlr_total_medicoes']= (abs($vlr) * $assoc['tot_medido']);
 				$assoc['nome_cli'] = busca_nome_usuario($assoc['id_user']);
 				$dados[] = $assoc;
 			}
