@@ -44,11 +44,15 @@
 	//ROTINA PARA GRAVAR UMA NOVA TAREFA_SUB_EMPREENDIEMNTO
 	if(isset($_POST['select_tarefa']) && isset($_POST['select_equipe'])){
 
+
+		var_dump($_POST);
+		
 		$tarefa = $_POST['select_tarefa'];
 		$equipe = $_POST['select_equipe'];
 		$sub_empre = $_POST['select_sub_empre'];
 
 		$valor_tarefa = str_replace('R$', '', $_POST['valor_tarefa']);
+		$valor_tarefa = str_replace(' ', '', $_POST['valor_tarefa']);
 		$valor_tarefa = str_replace(',', '.', $valor_tarefa); 
 		// $valor_tarefa = substr($valor_tarefa, 2);
 
@@ -207,7 +211,7 @@
 		$query = mysqli_query($db, "SELECT * FROM `const_medicao` WHERE `id_tarefa_sub` = ".$id_tarefa."")or die(mysqli_error($db));
 		$query2 = mysqli_query($db, "SELECT `valor_tarefa` FROM `const_tarefa_sub_empre` WHERE `id` = ".$id_tarefa."")or die(mysqli_error($db));
 		$quer = mysqli_fetch_assoc($query2);
-		$preco_med = utf8_encode($quer['valor_tarefa']);
+		$preco_med = $quer['valor_tarefa'];
 		var_dump($preco_med);
 		if(mysqli_num_rows($query) > 0){
 
@@ -221,7 +225,7 @@
 				}
 				$assoc['vlr_med'] = $preco_med;
 				$assoc['tot_medido'] += number_format($assoc['qnt_medida'], 2);
-				var_dump(floatval($assoc['vlr_med']));
+				var_dump($assoc['vlr_med']);
 				var_dump($assoc['tot_medido']);
 
 				$assoc['vlr_total_medicoes']+= (floatval($assoc['vlr_med']) * floatval($assoc['tot_medido']));
