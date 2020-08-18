@@ -2005,18 +2005,6 @@ $(document).on('click', 'button#cancela_solicitacao_def', function(){
 	if(motivo != ''){
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 		$.ajax({  
     		url:'const_grava_solicitacao.php',  
     		method:'POST', 

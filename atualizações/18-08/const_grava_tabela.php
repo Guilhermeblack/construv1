@@ -34,7 +34,7 @@
 
 	function busca_id_insumo($nomeInsumo){
 
-		// $nomeInsumo = utf8_decode($nomeInsumo);
+		$nomeInsumo = utf8_decode($nomeInsumo);
 		include "conexao.php";
 		$query = mysqli_query($db, "SELECT id FROM const_insumos WHERE descricao = '".$nomeInsumo."' LIMIT 1")or die(mysqli_error($db));
 
@@ -1425,25 +1425,31 @@
 	        	if ($registro > 1){
 
 	                // Validação dos dados da linha atual, segue abaixo os Index de cada coluna dentro da $linha
-                         
-	                // Descrição = 0                                   
-	                // valor =  1         
+
+	                // Código = 0                             
+	                // Descrição = 1                                    
+	                // Categoria = 2             
+	                // Espécie = 3                              
+	                /*
+	            	if($registro == 7){
+	            		var_dump($linha);
+	            		die();
+	            	}*/
 
 	            	$problema = '';
 	            	$plano = null;
 	            	$valida = 1;
 	            	$today = date("d-m-Y"); 
 
-
+					// echo ( ' te antes '. $t);
+					// echo count($linha);
 	            	for($t=0; $t<count($linha); $t++){
 
 
-						// if($linha[1]){
-						// 	$val= formata_valor($linha[1]);
-						// 	echo '<br></br>';
-						// 	var_dump($val);
-
-						// }
+						// ta dando muita merda vo refazer
+						if($linha[1]){
+							$val= formata_valor($linha[1]);
+						}
 						
 	                    // Validação do Descricao do insumo
 	            		if ($t == 0) {
@@ -1457,14 +1463,7 @@
 								break;
 								
 	            			}else{
-					
 								$plano["descricao"] = addslashes($linha[$t]);
-
-								$valid = preg_match('//u', $plano["descricao"]);
-								if(empty($valid)){
-									$plano["descricao"] = utf8_encode($plano["descricao"]);
-								}
-								// echo $plano["descricao"];
 								// echo '<br></br>';
 								// echo $plano['descricao'];
 	            				if(busca_id_insumo($plano["descricao"])){
@@ -1479,8 +1478,6 @@
 	            				}
 	            			}
 						}
-
-						//validação do valor
 						if($t == 1){
 
 							// echo($linha[$t]);
@@ -1494,8 +1491,7 @@
 	            			}else{
 
 								$valor = formata_valor($linha[$t]);
-								// echo '<br></br>';
-								// var_dump($valor);
+								// echo ('vlr ');
 
 
 	            				//Pego a última data de atualização da tabela
@@ -1510,15 +1506,9 @@
         							$query = mysqli_query($db, "SELECT * FROM `const_item_cotacao` WHERE `id_cotacao`= $cotacao AND `id_insumo`= ".$plano["id"]." AND `id_fornecedor`= $fornecedor AND `data`= '$data_preocurada' LIMIT 1")or die(mysqli_error($db));
 
         							if(mysqli_num_rows($query) > 0){
+        								$assoc = mysqli_fetch_assoc($query);
 
-										// echo '<br></br>';
-										// echo 'existe na cotação';
-										//id do item na cotação
-										$assoc = mysqli_fetch_assoc($query);
-										
-										// var_dump($assoc);
-
-        								// $plano["valor_t"] = ($valor * $assoc['quantidade']);
+        								//$plano["valor_t"] = ($valor * $assoc['quantidade']);
         								$plano["valor_t"] = $valor;
 										$id = $assoc['id'];
 

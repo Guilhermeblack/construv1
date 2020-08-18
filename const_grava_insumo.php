@@ -366,7 +366,10 @@
 		$query = mysqli_query($db, "SELECT * FROM `const_insumos` WHERE `codigo`= $aux[0]")or die(mysqli_error($db));
 		
 		$aux[1] = addslashes($aux[1]);
-
+		$valid = preg_match('//u', $aux[1]);
+		if(empty($valid)){
+			$aux[1] = utf8_encode($aux[1]);
+		}
 
 		$categoria = verifica_cat($aux[2]);
 		$especie = verifica_cat($aux[3]);

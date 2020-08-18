@@ -855,7 +855,7 @@ function sleep(milliseconds) {
   
           tree_tarefa.expandAll(false);
   
-        //   console.log(no);
+          console.log(no);
         //   console.log(nos_tarefa);
         //   console.log(orcamento);
   
