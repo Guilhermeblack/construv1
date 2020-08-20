@@ -1925,7 +1925,8 @@
 		$aux[0] = sanitizeString($aux[0]);
 		$aux[0] = addslashes($aux[0]);
 
-
+		// var_dump($aux);
+		// die();
 
 		$query = mysqli_query($db, "INSERT INTO `const_orcamento`( `titulo`, `id_empreendimento`, `status_editar`, `data_finalizado`) VALUES ('$aux[0]', $aux[2], 1, '') ")or die(mysqli_error($db));
 
