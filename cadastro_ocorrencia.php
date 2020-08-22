@@ -161,7 +161,7 @@ if(isset($_POST["titulo"])){
 
 								$query_amigo = "SELECT * FROM cliente
 								INNER JOIN cliente_tipo ON cliente_tipo.idcliente = cliente.idcliente
-								WHERE idtipo = 1 or idtipo = 4 or idtipo = 5 group by cliente.idcliente order by nome_cli Asc";
+								WHERE idtipo = 1 or idtipo = 4 or idtipo = 2 group by cliente.idcliente order by nome_cli Asc";
 
 
 								$executa_query = mysqli_query ($db,$query_amigo) or die ("Erro ao listar empreendimento");

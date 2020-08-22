@@ -28,10 +28,10 @@ if(isset($_POST["status_ocorrencia"])){
 
 
 
-$pasta = "ocorrencias/".$idocorrencia."/".$ultimo_id."/";
-if(!file_exists($pasta)){
-mkdir($pasta);
-}
+	$pasta = "ocorrencias/".$idocorrencia."/".$ultimo_id."/";
+	if(!file_exists($pasta)){
+		mkdir($pasta);
+	}
 
 
  foreach($_FILES["img"]["error"] as $key => $error){
