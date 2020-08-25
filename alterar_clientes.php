@@ -408,6 +408,10 @@ $consulta_conjuge = consulta_conjuge($idcliente);
 
                             include "conexao.php";
                                     
+
+
+
+                            // essa query nao traz o cliente
                             $query_amigo = "SELECT * FROM cliente
                             INNER JOIN cliente_tipo ON cliente_tipo.idcliente = cliente.idcliente
                             WHERE idtipo = 11 order by nome_cli Asc";
@@ -484,6 +488,8 @@ $consulta_conjuge = consulta_conjuge($idcliente);
                 $descricao_tipo      = $buscar_slide["descricao_tipo"];
                 $idtipo              = $buscar_slide["idtipo"];
            
+
+                
                 $verifica = verifica_tipo_user($idcliente, $idtipo);
 
                     ?>

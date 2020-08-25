@@ -259,7 +259,7 @@
                                             // echo $vlr;
                                             $vlr = substr_replace($vlr,',',$pos,1 );
                                             $npontos = substr_count($vlr,'.');
-                                            // echo ($npontos);
+                                            echo ($npontos);
                                             if($npontos==1){
                                                 
                                                 $vlr =  preg_replace("/[^0-9]/", "",$vlr);

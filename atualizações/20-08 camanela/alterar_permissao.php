@@ -239,7 +239,7 @@ include "protege_professor.php";
 									Financeiro = 4							Ocorrências = 47
 									Locação / Venda = 15					Documentos = 48
 									Empreendimentos = 22					Imobiliaria = 53
-									Gestão de Vendas = 24					CRM = 54
+									Gestão de Vendas = 24				CRM = 54
 									Projetos = 32							Relatórios = 66
 									Configurações = 33
 									Pendencias = 42
