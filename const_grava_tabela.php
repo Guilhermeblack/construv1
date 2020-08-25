@@ -201,11 +201,13 @@
 		}
 		
 
-		$query = mysqli_query($db, "SELECT * FROM tabela_orcamento WHERE id_orcamento = ".$orcamento." AND `status` = 1 ORDER BY `id` ")or die(mysqli_error($db));
+		$query = mysqli_query($db, "SELECT * FROM tabela_orcamento WHERE id_orcamento = ".$orcamento." AND `status` = 1 ORDER BY `id`")or die(mysqli_error($db));
 
+		// echo 'ué'.$orcamento;
 		// Separo e monto a matrix com os niveis e os dados dos nós
 		while ($executa_query = mysqli_fetch_assoc($query)) {
 
+			// var_dump($executa_query);
 
 			// conta os pontos para definir o nivel;
 			$nivel = verifica_nivel($executa_query['id_tarefa']);
@@ -220,8 +222,10 @@
 			}else{
 				$executa_query['type'] = 'file';
 			}
-			$executa_query['id_insumo_plano'] = $executa_query['id_insumo_plano'];
 
+			// $executa_query['id_insumo_plano'] = abs($executa_query['id_insumo_plano']);
+
+			
 
 			switch ($executa_query['tabela']) {
 				case 1:
@@ -237,14 +241,15 @@
 					$executa_query['pasta'] = $aux['descricao'];
 					break;
 				case 3:
-					//tabela 3 é nao cadastrado
+					//tabela 3 é - nao cadastrado
 					$aux = mysqli_query($db, "SELECT * FROM `const_temp` WHERE `id` = ".$executa_query['id_insumo_plano']."")or die(mysqli_error($db));
 					$aux = mysqli_fetch_assoc($aux);
 					$executa_query['pasta'] = $aux['descricao'];
+					// echo '<br></br>       |     ';
 					// echo $aux['descricao'];
 					break;
 				case 4:
-					//tabela 4 é uma tarefa
+					//tabela 4 - é uma tarefa
 					$aux = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `id` = ".$executa_query['id_tarefa_plano']."")or die(mysqli_error($db));
 					$aux = mysqli_fetch_assoc($aux);
 					$executa_query['pasta'] = $aux['titulo'];
@@ -260,16 +265,21 @@
 
 			array_push($matrix[$nivel], $executa_query);
 		}		
+		// var_dump($matrix);
 		// die();
 
 		if(isset($matrix)){
 
-
+			// var_dump($matrix);
+			// echo 'chola mais';
+			// echo '<br></br>';
+			// echo '<br></br>';
+			// echo '<br></br>';
 
 			$aux = escreve_array($matrix[0], $matrix, 0);
 
 			// echo '<br> 1 </br>';
-			// var_dump($aux);
+			var_dump($aux);
 			// die();
 			$aux = json_encode($aux);
 
@@ -277,11 +287,11 @@
 			// die();
 
 			$aux = str_replace('pasta', 'title', $aux);
-			// echo '<br> 2 </br>';
-			// echo $titulo;
-			// echo '<br> 3 </br>';
+			echo '<br> 2 </br>';
+			echo $titulo;
+			echo '<br> 3 </br>';
 			// var_dump($aux);
-			// die();
+			die();
 
 			gravar($aux, $titulo);
 			
@@ -611,7 +621,6 @@
 	                        if (empty($linha[$i])) {
 	                            $valida = 0;
 								$problema .= 'id invalido';
-								array_push($vare,[' errooooo']);
 	                            break;
 	                        }else{
 
@@ -744,6 +753,11 @@
 							// echo ' 1111/\/\/\/\/\/';
 							// var_dump($no);
 							// echo '<br>          </br>';
+							$valid = preg_match('//u', $no["descricao"]);
+							if(empty($valid)){
+								$no["descricao"] = utf8_encode($no["descricao"]);
+							}
+							unset($valid);
 
 							$query = mysqli_query($db, "SELECT `id` FROM `const_planocontas` WHERE `codigo` = '".$no['cod_insumo']."' OR `descricao` = '".$no['descricao']."'")or die(mysqli_error($db));
 
@@ -768,6 +782,12 @@
 
 
 	                    	if($tipo_planilha == 2){
+
+								$valid = preg_match('//u', $no["descricao"]);
+								if(empty($valid)){
+									$no["descricao"] = utf8_encode($no["descricao"]);
+								}
+								unset($valid);
 								
 	                    		$query = mysqli_query($db, "SELECT * FROM `const_tarefas` WHERE `codigo` = '".$no['cod_insumo']."' OR `titulo` = '".$no['descricao']."'");
 								
@@ -790,7 +810,13 @@
 									
 	                    		}
 	                    	}else{
-								
+
+								$valid = preg_match('//u', $no["descricao"]);
+								if(empty($valid)){
+									$no["descricao"] = utf8_encode($no["descricao"]);
+								}
+								unset($valid);
+
 	                    		$query = mysqli_query($db, "SELECT `id` FROM `const_insumos` WHERE `codigo` = '".$no['cod_insumo']."' OR `descricao` = '".$no['descricao']."'");
 								
 	                    		if(mysqli_num_rows($query) > 0){
@@ -813,12 +839,17 @@
 	                    	}
 	                    }
 
-						// echo '<br>     fin     </br>';
-						// var_dump($no);
-
+						$orcamento = abs($orcamento);
 	                    if($tipo_planilha == 1){
     	                    $aux = mysqli_query($db, "INSERT INTO `tabela_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_insumo_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."' ,'".$no['valor_uni']."' , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
-	                    }elseif($tipo_planilha == 2){
+							// if($aux){
+							// 	echo 'chama no material';
+							// 	var_dump($orcamento);
+
+							// }
+							
+						}elseif($tipo_planilha == 2){
+							// echo 'cham na tarefa';
 	                    	$aux = mysqli_query($db, "INSERT INTO `const_item_tarefa_orcamento`(`id_tarefa`, `quantidade`, `unidade`, `valor_unitario`, `id_orcamento`, `id_tarefa_plano`, `tabela`, `status`) VALUES ('".$no['id']."', '".$no['qnt']."' , '".$no['uni_medida']."', '".$no['valor_uni']."' , ".$orcamento." , ".$no['cod_insumo'].", ".$tabela.", 1 )") or die(mysqli_error($db));
 						}
 
@@ -862,7 +893,9 @@
 	    $file->save("planilhas/falhas.xlsx");
 
 		// itens ja foram inseridos no orcamento
-	    monta_json($orcamento);
+		monta_json($orcamento);
+		
+		// die();
 
 	    return $retorno;
 	}
