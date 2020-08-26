@@ -512,7 +512,7 @@ function valor_corrigido($data_vencimento_tratada, $valor_parcelas, $tipo_venda)
 
 
                                  <tr>
-                               			 <td><input type="submit" class="btn btn-success" value="Confirmar Recebimento" /></td>
+                               			 <td><input type="submit" class="btn btn-success" value="Confirmar Pagamento" /></td>
                                	 			<td></td>
                                 			<td></td> 
                                 			<td></td>

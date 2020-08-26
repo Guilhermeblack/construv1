@@ -109,28 +109,6 @@ function sleep(milliseconds) {
   
           renderColumns: function(event, data) {
               var node = data.node, $tdList = $(node.tr).find(">td");
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
               
               
               if(!node.hasChildren()){
@@ -275,6 +253,7 @@ function sleep(milliseconds) {
                           }
                           break;
                       case "novo_insumo":
+                            $("div#modal-insumo").modal('show');
                           $("input#cad_tarefa_input").val(node.title);
                           $("div#cad_tarefa").modal('show');
                           break;
@@ -382,6 +361,7 @@ function sleep(milliseconds) {
                           }
                           break;
                       case "novo_insumo":
+                            $("div#modal-insumo").modal('show');
                           $("input#cad_insumo_desc").val(node.title);
                           $("button#cad_insumo").click();
                           break;

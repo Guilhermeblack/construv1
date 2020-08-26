@@ -965,6 +965,7 @@
 
 		echo json_encode('1');
 	//Faço o cancelamento da Ordem de Compra e recarrego a lista de OC
+	
 	}else if(isset($_POST['cancela_oc']) && isset($_POST['motivo'])){
 		$id_oc = $_POST['cancela_oc'];
 		$motivo = $_POST['motivo'];
