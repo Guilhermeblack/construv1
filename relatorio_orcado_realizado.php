@@ -349,7 +349,7 @@ if (!isset($_SESSION)) {
 											<th width="15%">Valor Orçado</th>
 											<th width="5%">Qnt Gasto</th>
 											<th width="15%">Valor Gasto</th>
-											<th style="width: 200px!important;">Proporção Orcado X Realizado</th>
+											<!-- <th style="width: 200px!important;">Proporção Orcado X Realizado</th> -->
 										</tr>
 									</thead>
 									<tbody>
@@ -400,8 +400,8 @@ if (!isset($_SESSION)) {
 														<td><?php echo $tipo; ?></td>
 														<td><?php echo $quantidade; ?></td>
 														<td><?php echo 'R$ '.number_format(($quantidade * $value['valor_unitario']), 2, ',', '.'); ?></td>
-														<td><?php echo $value['qnt_realizado']; ?></td>
-														<td><?php echo 'R$ '.number_format(abs($value['valor_realizado']), 2, ',', '.'); ?></td>
+														<td><?php echo 'R$ '.number_format($value['valor_realizado'], 2, ',', '.'); ?></td>
+
 														<td><?php echo 'R$ '.number_format(($value['valor_unitario'] * $value['qnt_realizado']), 2, ',', '.'); ?></td>
 													</tr>
 													<?php

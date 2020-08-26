@@ -171,6 +171,7 @@ function verifica_tipo_user($idcliente, $idtipo){
 
 
 }
+
 function carrega_tipo($idcliente){
                 include "conexao.php";
                 $query_amigo = "SELECT * FROM cliente_tipo
@@ -489,7 +490,10 @@ $consulta_conjuge = consulta_conjuge($idcliente);
                 $idtipo              = $buscar_slide["idtipo"];
            
 
-                
+                // var_dump($idcliente);
+                // var_dump($idtipo);
+                // die();
+
                 $verifica = verifica_tipo_user($idcliente, $idtipo);
 
                     ?>

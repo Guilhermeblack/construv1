@@ -521,21 +521,21 @@ include "protege_professor.php";
 					
     		        var t = [
     		          			
-    		        		[1, <?php echo $gasto_mes[$assoc_master['idempreendimento_cadastro']]; ?>],
-    		        		[2, <?php echo $gasto_mes[$assoc_master['idempreendimento_cadastro']]; ?>],
-    		        		[3, <?php echo $gasto_mes[$assoc_master['idempreendimento_cadastro']]; ?>],
-    		        		[4, <?php echo $gasto_mes[$assoc_master['idempreendimento_cadastro']]; ?>],
-    		        		[5, <?php echo $gasto_mes[$assoc_master['idempreendimento_cadastro']]; ?>],
+    		        		[1, 300000],
+    		        		[2, 470000],
+    		        		[3, 650000],
+    		        		[4, 520000],
+    		        		[5, 350000],
 
 					  ];
 
     		          var n = [
 						
-    		            [1, <?php echo $media_orcado[$assoc_master['idempreendimento_cadastro']]; ?>],
-		        		[2, <?php echo $media_orcado[$assoc_master['idempreendimento_cadastro']]; ?>],
-		        		[3, <?php echo $media_orcado[$assoc_master['idempreendimento_cadastro']]; ?>],
-		        		[4, <?php echo $media_orcado[$assoc_master['idempreendimento_cadastro']]; ?>],
-		        		[5, <?php echo $media_orcado[$assoc_master['idempreendimento_cadastro']]; ?>],
+    		            [1, 420000],
+		        		[2, 370000],
+		        		[3, 270000],
+		        		[4, 420000],
+		        		[5, 480000],
 
 					  ];
 					  
