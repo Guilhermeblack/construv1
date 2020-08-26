@@ -118,25 +118,26 @@ WHERE idcliente = '$idcliente'
 
 ");
  $executa_query = mysqli_query ($db,$inserir);
+ 
  $deleta_tipo   = mysqli_query($db,"DELETE FROM cliente_tipo WHERE idcliente='$idcliente'")or die(mysqli_error($db));
- echo "a";
+//  echo "a";
 
 
   foreach($tipo_cliente as $tipo){
 
-              $inserir_tipo = mysqli_query($db,"INSERT INTO cliente_tipo (idcliente, idtipo) values ('$idcliente','$tipo')")or die(mysqli_error($db));
+              $inserir_tipo = mysqli_query($db,"INSERT INTO cliente_tipo (idcliente, idtipo) values (".$idcliente.",".$tipo.")")or die(mysqli_error($db));
                echo "b";
           }
 
  
  $deleta_con   = mysqli_query($db,"DELETE FROM conjuge WHERE conjuge_idconjuge='$conjuge_idconjuge'")or die(mysqli_error($db));
-  echo "c";
+  // echo "c";
  $inserir_con = mysqli_query($db,"INSERT INTO conjuge (cliente_idcliente, conjuge_idconjuge) values ('$idcliente','$conjuge_idconjuge')")or die(mysqli_error($db));
-  echo "d";
+  // echo "d";
 
 
 $auditoria_alteracao_cliente = mysqli_query($db,"INSERT INTO alteracao_cadastro_cliente (cliente_id, data_alterado, alterado_por) values ('$idcliente','$data_alterado','$alterado_por')")or die(mysqli_error($db));
- 	echo "e";
+ 	// echo "e";
  	
  	// die();
  ?>

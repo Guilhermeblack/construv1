@@ -1657,6 +1657,8 @@ $("select#select_categoria").change(function(data){
           let tree = $('table#tree').fancytree('getTree');
           let tree_tarefa = $('table#orc_tarefa').fancytree('getTree');
           let valida = 1;
+
+          console.log(valida);
   
           tree.visit(function(fn){
               if(fn.data.tabela == '3'){
@@ -1675,7 +1677,9 @@ $("select#select_categoria").change(function(data){
           }
   
           //console.log(id_orc);
-          //console.log(editable);
+          console.log(valida);
+
+
   
           if(valida == 1){
               if(editable == 1){
