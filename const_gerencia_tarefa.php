@@ -248,7 +248,7 @@
                                                             <td><?php echo $exeQuery['titulo'] ?></td>
                                                             <td><?php echo $exeQuery['nome_sub'] ?></td>
                                                             <td><?php echo $exeQuery['data_inicio'] ?></td>
-                                                            <td>R$ <?php echo $exeQuery['valor_tarefa'] ?></td>
+                                                            <td><?php echo $exeQuery['valor_tarefa'] ?></td>
                                                             <td><?php echo $exeQuery['unidade_medida'] ?></td>
                                                             <td title="<?php echo $funcionarios; ?>"><?php echo $exeQuery['nome']?></td>
                                                             <!-- <td><?php $exeQuery['total_a_fazer'] ?></td> -->
