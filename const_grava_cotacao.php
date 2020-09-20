@@ -80,6 +80,8 @@
 	function monta_ordem_compra($id_oc){
 		include "conexao.php";
 
+
+
 		$query = mysqli_query($db, "SELECT * FROM `const_ordem_compra` WHERE id = $id_oc")or die(mysqli_error($db));
 
 		if(mysqli_num_rows($query) > 0){
@@ -93,7 +95,7 @@
 			$numero_oc = utf8_encode($assoc['id']);
 			$data_oc = utf8_encode($assoc['data']);
 			$data_entrega = utf8_encode($assoc['data_entrega']);
-			$local_entrega = utf8_encode($assoc['local_entrega']);
+			$local_entrega = utf8_decode($assoc['local_entrega']);
 			$desconto = utf8_encode($assoc['desconto']);
 
 			$id_fornecedor = $assoc['id_fornecedor'];
@@ -101,7 +103,7 @@
 
 			$assoc = mysqli_fetch_assoc($query);
 
-			$nome = utf8_encode($assoc['nome_cli']);
+			$nome = $assoc['nome_cli'];
 			$endereco = utf8_encode($assoc['endereco_cli'].' , '.$assoc['numero_cli']);
 			$cidade = utf8_encode($assoc['cidade_cli']);
 			$cnpj = utf8_encode($assoc['cpf_cli']);
@@ -963,6 +965,7 @@
 
 		echo json_encode('1');
 	//Faço o cancelamento da Ordem de Compra e recarrego a lista de OC
+	
 	}else if(isset($_POST['cancela_oc']) && isset($_POST['motivo'])){
 		$id_oc = $_POST['cancela_oc'];
 		$motivo = $_POST['motivo'];

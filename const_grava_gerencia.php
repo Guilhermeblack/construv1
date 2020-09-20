@@ -337,12 +337,16 @@
 					$vlr =  preg_replace("/[^0-9]/", "",$vlr);
 					$vlr = substr_replace($vlr,'.', -2, 0);
 				}
-				
+				if(substr($vlr, -1) == ','){
+
+					$vlr = substr_replace($vlr,'0', -1, 1);
+					// var_dump($vlr);
+				}
 
 			}
-			// echo $vlr;
+			// var_dump($vlr);
 			// echo ' valoraaao';
-
+			// die();
 			$query = mysqli_query($db, "SELECT * FROM `const_medicao` WHERE `id` = ".$id."")or die(mysqli_error($db));
 
 			if(mysqli_num_rows($query)){

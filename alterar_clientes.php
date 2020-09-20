@@ -153,6 +153,9 @@ $renda_total         = $buscar_amigo["renda_total"];
 }
       
 function verifica_tipo_user($idcliente, $idtipo){
+    
+
+                
                 include "conexao.php";
                 $query_amigo = "SELECT * FROM cliente_tipo
                                 WHERE idcliente = $idcliente AND idtipo = $idtipo";
@@ -171,7 +174,6 @@ function verifica_tipo_user($idcliente, $idtipo){
 
 
 }
-
 function carrega_tipo($idcliente){
                 include "conexao.php";
                 $query_amigo = "SELECT * FROM cliente_tipo
@@ -409,10 +411,6 @@ $consulta_conjuge = consulta_conjuge($idcliente);
 
                             include "conexao.php";
                                     
-
-
-
-                            // essa query nao traz o cliente
                             $query_amigo = "SELECT * FROM cliente
                             INNER JOIN cliente_tipo ON cliente_tipo.idcliente = cliente.idcliente
                             WHERE idtipo = 11 order by nome_cli Asc";
@@ -420,14 +418,14 @@ $consulta_conjuge = consulta_conjuge($idcliente);
                             $executa_query = mysqli_query ($db,$query_amigo) or die ("Erro ao listar empreendimento");
                                 while ($buscar_amigo = mysqli_fetch_assoc($executa_query)) {//--verifica se são amigos
                                 
-                                    $idcliente             = $buscar_amigo['idcliente'];
-                                    $nome_cli              = $buscar_amigo["nome_cli"];
-                                    $cpf_cli              = $buscar_amigo["cpf_cli"];
+                                    $idclientee             = $buscar_amigo['idcliente'];
+                                    $nome_clie              = $buscar_amigo["nome_cli"];
+                                    // $cpf_cli              = $buscar_amigo["cpf_cli"];
                                     
         
         
         ?>
-                                      <option value="<?php echo $idcliente ?>"> <?php echo $nome_cli ?>
+                                      <option value="<?php echo $idclientee ?>"> <?php echo $nome_clie ?>
                                       </option>
                                       <?php } ?>
                     
@@ -489,11 +487,6 @@ $consulta_conjuge = consulta_conjuge($idcliente);
                 $descricao_tipo      = $buscar_slide["descricao_tipo"];
                 $idtipo              = $buscar_slide["idtipo"];
            
-
-                // var_dump($idcliente);
-                // var_dump($idtipo);
-                // die();
-
                 $verifica = verifica_tipo_user($idcliente, $idtipo);
 
                     ?>

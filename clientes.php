@@ -233,7 +233,7 @@ include "protege_professor.php";
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">CPF</label>
+                                    <label class="col-md-2 control-label">CPF/CNPJ</label>
                                     <div class="col-md-4">
                                         <div class="">
                                             <input type="text" class="form-control" name="cpf_cliente"
@@ -359,7 +359,7 @@ include "protege_professor.php";
                                         <th>Nome</th>
                                         <th>Grupo</th>
                                         <th>Tipo</th>
-                                        <th>CPF</th>
+                                        <th>CPF/CNPJ</th>
                                         <th>Telefone</th>
                                         <th> </th>
                                     </tr>
@@ -442,7 +442,7 @@ include "protege_professor.php";
 
                                     <tr class="odd gradeX">
                                         <td><?php echo $idcliente ?></td>
-                                        <td><?php echo utf8_encode($nome_cli) ?></td>
+                                        <td><?php echo $nome_cli ?></td>
                                         <td><?php echo $grupi ?></td>
                                         <td><?php
                                                 foreach($tipo_cliente as $tipo){

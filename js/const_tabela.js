@@ -109,28 +109,6 @@ function sleep(milliseconds) {
   
           renderColumns: function(event, data) {
               var node = data.node, $tdList = $(node.tr).find(">td");
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
               
               
               if(!node.hasChildren()){
@@ -275,6 +253,7 @@ function sleep(milliseconds) {
                           }
                           break;
                       case "novo_insumo":
+                            $("div#modal-insumo").modal('show');
                           $("input#cad_tarefa_input").val(node.title);
                           $("div#cad_tarefa").modal('show');
                           break;
@@ -382,6 +361,7 @@ function sleep(milliseconds) {
                           }
                           break;
                       case "novo_insumo":
+                            $("div#modal-insumo").modal('show');
                           $("input#cad_insumo_desc").val(node.title);
                           $("button#cad_insumo").click();
                           break;
@@ -1657,6 +1637,8 @@ $("select#select_categoria").change(function(data){
           let tree = $('table#tree').fancytree('getTree');
           let tree_tarefa = $('table#orc_tarefa').fancytree('getTree');
           let valida = 1;
+
+          console.log(valida);
   
           tree.visit(function(fn){
               if(fn.data.tabela == '3'){
@@ -1675,7 +1657,9 @@ $("select#select_categoria").change(function(data){
           }
   
           //console.log(id_orc);
-          //console.log(editable);
+          console.log(valida);
+
+
   
           if(valida == 1){
               if(editable == 1){
