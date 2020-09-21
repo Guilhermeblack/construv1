@@ -423,7 +423,7 @@
             							<tbody>
             								<tr>
             									<td id="checkbox" class="alignCenter"></td>
-            									<td id="id" style="padding: 4px !important; " ></td>
+            									<td id="id" style="padding: 4px !important;"></td>
             									<td id="tree"></td>
             									<td class="alignCenter" id="no_input"><input name="unidade" id="unidade" type="text"></td>
             									<td class="alignCenter" id="no_input"><input name="qnt" id="qnt" type="text"></td>
@@ -700,7 +700,7 @@
 				</div>
 			</div>
 
-			<div id="modal-insumo" class="modal fade" role="dialog">
+			<div id="modal-insum" class="modal fade" role="dialog">
 				<div class="modal-dialog modal-lg">
 					<!-- Modal content-->
 					<div class="modal-content">

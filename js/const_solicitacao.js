@@ -1390,8 +1390,7 @@ $('a#gera_solicitacao').click(function(){
                     //Vejo se a quantidade solicitada é maior que a disponivel em estoque
                     if($(this).parents('tr').find('> td').eq(2).hasClass('maior_estoque')){
 
-                        console.log(' um '.$(this).parents('tr').find('> td').eq(5).text());
-                        console.log(' doe '.$(this).parents('tr').find('> td').eq(2).text());
+
 
                         var qnt_amais = (parseFloat($(this).parents('tr').find('> td').eq(5).text()) - parseFloat($(this).parents('tr').find('> td').eq(2).text()));
 

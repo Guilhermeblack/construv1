@@ -99,8 +99,9 @@
                             <col width="10%"></col>
                             <col width="40%"></col>
                             <col width="20%"></col>
-                            <col width="20%"></col>
-                            <col width="10%"></col>
+                            <col width="18%"></col>
+                            <col width="8%"></col>
+                            <col width="4%"></col>
                         </colgroup>
                         <thead class="thead-dark" id="empreendimento">
                             <tr>
@@ -108,6 +109,7 @@
                                 <th class="text-center">Nome Empreendimento</th>
                                 <th class="text-center">Responsável</th>
                                 <th class="text-center">Ação</th>
+                                <th class="text-center">Excluir</th>
                             </tr>
                         </thead>
                         <tbody id="empreendimento">
@@ -117,6 +119,9 @@
                                 <td >Nome do Insumo</td>
                                 <td>
                                     <a class="btn btn-info btn-rounded btn-sm sub_empreendimento">Sub-Empreendimento</button>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-rounded btn-sm exc_empreendimento">Excluir</button>
                                 </td>
                             </tr>
 
@@ -135,6 +140,9 @@
                                             <td>
                                                 <!-- onclick do ajax -->
                                                 <a class="btn btn-info btn-rounded btn-sm sub_empreendimento">Sub-Empreendimentos</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger btn-rounded btn-sm exc_empreendimento">Excluir</button>
                                             </td>
                                         </tr>
                                     <?php
@@ -207,7 +215,7 @@
 
 
                                 //Grupo_rota 14 == mestre de Obra
-                                $query = mysqli_query($db, "SELECT * FROM `cliente` WHERE `idgrupo` = 14")or die(mysqli_error($db));
+                                $query = mysqli_query($db, "SELECT * FROM `cliente` WHERE `idgrupo` = 19")or die(mysqli_error($db));
 
                                 if(mysqli_num_rows($query) > 0){
                                     while ($assoc = mysqli_fetch_assoc($query)) {

@@ -1718,7 +1718,7 @@
 				// echo $value[1]);
 				$valid = preg_match('//u', $value[1]);
 				if(empty($valid)){
-					$value[1] = utf8_encode($value[1]);
+					$value[1] = utf8_decode($value[1]);
 				}
 
 				
