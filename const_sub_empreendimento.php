@@ -133,8 +133,8 @@
                                 if(mysqli_num_rows($query) > 0){
                                     while ($assoc = mysqli_fetch_assoc($query)) {
                                     ?>
-                                        <tr id-empreendimento="<?php echo $assoc['idempreendimento_cadastro'] ?>">
-                                            <td><?php echo $assoc['idempreendimento_cadastro'] ?></td>
+                                        <tr idemprendimento ="<?php echo $assoc['idempreendimento_cadastro'] ?>">
+                                            <td id='idemp'><?php echo $assoc['idempreendimento_cadastro'] ?></td>
                                             <td id='nomemp'><?php echo $assoc['descricao_empreendimento']; ?></td>
                                             <td><?php echo $assoc['nome_cli']; ?></td>
                                             <td>
@@ -164,7 +164,7 @@
                             <div class="modal-body">
                                 <input type='hidden' id='empreendimentoid'>
                                 <p>Deseja mesmo excluir o empreendimento:</p>
-                                <p> <label id='emp_nome'></label></p>
+                                <p> <b><label id='emp_nome'></label></b></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary">Save changes</button>

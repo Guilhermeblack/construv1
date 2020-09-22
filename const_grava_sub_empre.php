@@ -125,5 +125,14 @@
 		echo json_encode(1);
 	}
 
+	if(isset($_POST['deleta_emp'])){
+
+		$id_sub = $_POST['deleta_sub'];
+
+		$query = mysqli_query($db, "DELETE FROM `const_sub_empreendimento` WHERE `id` = $id_sub")or die(mysqli_error($db));
+
+		echo json_encode(1);
+	}
+
 
  ?>

@@ -220,19 +220,23 @@ $(document).on('click', 'button#salvar_tipo', function(){
 
 $(document).on('click', 'a.exc_empreendimento', function(){
 
-	console.log('dffdsfds');
-	let aux = $('#nomemp').val();
+	let aux = $(this).parent().siblings('#nomemp').text();
 	console.log(aux, ' oeoeoeoe');
 	$('#emp_nome').text(aux);
-	let val = $(this).parent('<tr [name="id-empreendimento"]').val();
+	let val = $(this).parent().siblings('#idemp').text();
 	console.log(val,' dpdpdpdpdpdp');
 	$.ajax({  
 		url:'const_grava_sub_empre.php',  
 		method:'POST', 
-		data: {  },
+		data: {deleta_emp:val  },
 		dataType:'json',  
 		success: dados => 	
-		{},
+		{
+			if(data ==1){
+				alert('retorno ok');
+			}
+			alert('excluido !');
+		},
 	});
 
 
