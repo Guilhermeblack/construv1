@@ -133,7 +133,7 @@
                                 if(mysqli_num_rows($query) > 0){
                                     while ($assoc = mysqli_fetch_assoc($query)) {
                                     ?>
-                                        <tr idemprendimento ="<?php echo $assoc['idempreendimento_cadastro'] ?>">
+                                        <tr id-emprendimento ="<?php echo $assoc['idempreendimento_cadastro'] ?>">
                                             <td id='idemp'><?php echo $assoc['idempreendimento_cadastro'] ?></td>
                                             <td id='nomemp'><?php echo $assoc['descricao_empreendimento']; ?></td>
                                             <td><?php echo $assoc['nome_cli']; ?></td>

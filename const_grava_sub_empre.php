@@ -75,9 +75,9 @@
 
 		$titulo = addslashes($titulo);
 		$obs = addslashes($obs);
-		$tipo_sub = addslashes($dados['tipo_sub']);
-		$mestre_obra = addslashes($dados['mestre_obra']);
-		$empreendimento = addslashes($dados['empreendimento']);
+		$tipo_sub = abs($dados['tipo_sub']);
+		$mestre_obra = abs($dados['mestre_obra']);
+		$empreendimento = abs($dados['empreendimento']);
 
 		$query = mysqli_query($db, "INSERT INTO `const_sub_empreendimento`(`id_tipo`, `id_mestre_obra`,  `id_empreendimento`, `titulo`, `obs`) VALUES ($tipo_sub, $mestre_obra, $empreendimento ,'$titulo','$obs')")or die(mysqli_error($db));
 

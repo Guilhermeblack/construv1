@@ -48,7 +48,7 @@ $(document).on('click', 'a#salvar_sub_empreendimento', function(){
 
 	obs == '' ? obs = 'Nenhuma Observação' : obs = obs;
 
-	//console.log(obs);
+	// console.log(empreendimento);
 
 	if(titulo != '' && tipo_sub != -1 && mestre_obra != -1 && empreendimento != -1){
 
@@ -93,7 +93,7 @@ $(document).on('click', 'a#salvar_sub_empreendimento', function(){
 //Rotina para listar os sub_empreendimentos de acordo com o empreendiemnto Selecionado
 $(document).on('click', 'a.sub_empreendimento', function(){
 
-	let id_empre = $(this).parents('tr').attr('id-empreendimento');
+	let id_empre = $(this).parents('tr').attr('id-emprendimento');
 
 	console.log(id_empre);
 	
