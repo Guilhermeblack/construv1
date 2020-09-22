@@ -143,6 +143,7 @@ $(document).on('click', 'a.sub_empreendimento', function(){
 	});
 });
 
+
 //Rotina para fazer a exclusão do sub-empreendimento selecionado
 $(document).on('click', 'a.excluir_sub_empreendimento', function(){
 
@@ -172,6 +173,7 @@ $(document).on('click', 'a.excluir_sub_empreendimento', function(){
 
 //Rotina para fazer a gravação de um tipo de sub empreendimento no banco de dados 
 $(document).on('click', 'button#salvar_tipo', function(){
+
 
 	let titulo = $('input#nome_tipo').val();
 	let m2 = $('input#area_tipo').val();
@@ -214,4 +216,25 @@ $(document).on('click', 'button#salvar_tipo', function(){
 	}else{
 		alert('Preencha todos os campos para continuar!');
 	}
+});
+
+$(document).on('click', 'a.exc_empreendimento', function(){
+
+	console.log('dffdsfds');
+	let aux = $('#nomemp').val();
+	console.log(aux, ' oeoeoeoe');
+	$('#emp_nome').text(aux);
+	let val = $(this).parent('<tr [name="id-empreendimento"]').val();
+	console.log(val,' dpdpdpdpdpdp');
+	$.ajax({  
+		url:'const_grava_sub_empre.php',  
+		method:'POST', 
+		data: {  },
+		dataType:'json',  
+		success: dados => 	
+		{},
+	});
+
+
+
 });

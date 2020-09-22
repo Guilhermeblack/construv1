@@ -135,22 +135,44 @@
                                     ?>
                                         <tr id-empreendimento="<?php echo $assoc['idempreendimento_cadastro'] ?>">
                                             <td><?php echo $assoc['idempreendimento_cadastro'] ?></td>
-                                            <td><?php echo $assoc['descricao_empreendimento']; ?></td>
+                                            <td id='nomemp'><?php echo $assoc['descricao_empreendimento']; ?></td>
                                             <td><?php echo $assoc['nome_cli']; ?></td>
                                             <td>
                                                 <!-- onclick do ajax -->
                                                 <a class="btn btn-info btn-rounded btn-sm sub_empreendimento">Sub-Empreendimentos</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-danger btn-rounded btn-sm exc_empreendimento">Excluir</button>
+                                                <a class="btn btn-danger btn-rounded btn-sm exc_empreendimento" data-toggle="modal" data-target="#exc_emp">Excluir</button>
                                             </td>
                                         </tr>
                                     <?php
                                     }
+
                                 }
                             ?>
                         </tbody>
                     </table>
+                    <div class="modal" tabindex="-1" role="dialog" id='exc_emp'>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Excluir Empreendimento</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type='hidden' id='empreendimentoid'>
+                                <p>Deseja mesmo excluir o empreendimento:</p>
+                                <p> <label id='emp_nome'></label></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                 </div>
             </div>
             <div class="panel-footer">
