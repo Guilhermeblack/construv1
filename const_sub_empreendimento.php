@@ -82,7 +82,7 @@
 
 	<div id="content" class="content">
         <div class="panel panel-inverse">
-            <div class="panel-heading" style="">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-4">
                         <h2 class="panel-title" style="font-size: 14px;">Empreendimentos</h2>
@@ -153,24 +153,28 @@
                         </tbody>
                     </table>
                     <div class="modal" tabindex="-1" role="dialog" id='exc_emp'>
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
+                        <div class="modal-dialog " role="document">
+                        
+                            <div class="modal-content bg-danger">
+                            <div class="modal-header bg-danger">
                                 <h5 class="modal-title">Excluir Empreendimento</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <input type='hidden' id='empreendimentoid'>
-                                <p>Deseja mesmo excluir o empreendimento:</p>
-                                <p> <b><label id='emp_nome'></label></b></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                            </div>
+                            <form id='confirm_del_emp' method="POST" name='confirm_del_emp'>
+                                <div class="modal-body bg-danger ">
+                                    
+                                    <input type='hidden' id='empreendimentoid' name="empreendimentoid">
+                                    <p>Deseja mesmo excluir o empreendimento:</p>
+                                    <p> <label id='emp_nome'><b></b></label></p>
+                                </div>
+                                <div class="modal-footer bg-danger">
+                                    <button type="submit" class="btn btn-danger" >Deletar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                </div>
+                                </div>
+                            </form>
                         </div>
                         </div>
                 </div>

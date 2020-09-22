@@ -225,20 +225,29 @@ $(document).on('click', 'a.exc_empreendimento', function(){
 	$('#emp_nome').text(aux);
 	let val = $(this).parent().siblings('#idemp').text();
 	console.log(val,' dpdpdpdpdpdp');
+
+	$('#empreendimentoid').val(val);
+
+
+});
+
+$(document).on('submit', 'form#confirm_del_emp', function(){
+
+	
+	let val = $('input#empreendimentoid').val();
+	// alert(val);
 	$.ajax({  
 		url:'const_grava_sub_empre.php',  
 		method:'POST', 
-		data: {deleta_emp:val  },
+		data: { empreendimentoid:val},
 		dataType:'json',  
 		success: dados => 	
 		{
-			if(data ==1){
-				alert('retorno ok');
-			}
-			alert('excluido !');
+			setTimeout(function(){ location.reload(); }, 1000);
 		},
+		error: dados =>
+		{
+			alert('Não foi possível excluir o empreendimento.');
+		}
 	});
-
-
-
 });

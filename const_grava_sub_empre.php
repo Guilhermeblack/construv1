@@ -125,11 +125,10 @@
 		echo json_encode(1);
 	}
 
-	if(isset($_POST['deleta_emp'])){
+	if(isset($_POST['empreendimentoid'])){
 
-		$id_sub = $_POST['deleta_sub'];
-
-		$query = mysqli_query($db, "DELETE FROM `const_sub_empreendimento` WHERE `id` = $id_sub")or die(mysqli_error($db));
+		$id_emp = $_POST['empreendimentoid'];
+		$query = mysqli_query($db, "DELETE FROM `empreendimento_cadastro` WHERE `idempreendimento_cadastro` = $id_emp")or die(mysqli_error($db));
 
 		echo json_encode(1);
 	}
