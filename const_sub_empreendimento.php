@@ -135,7 +135,7 @@
                                     ?>
                                         <tr id-emprendimento ="<?php echo $assoc['idempreendimento_cadastro'] ?>">
                                             <td id='idemp'><?php echo $assoc['idempreendimento_cadastro'] ?></td>
-                                            <td id='nomemp'><?php echo $assoc['descricao_empreendimento']; ?></td>
+                                            <td id='nomemp' contenteditable ><?php echo $assoc['descricao_empreendimento']; ?></td>
                                             <td><?php echo $assoc['nome_cli']; ?></td>
                                             <td>
                                                 <!-- onclick do ajax -->
@@ -310,7 +310,7 @@
                         <tbody id="sub_empreendimento">
                             <tr class="hidden">
                                 <td>#</td>
-                                <td>Desc</td>
+                                <td >Desc</td>
                                 <td>Tipo</td>
                                 <td>Respo</td>
                                 <td style="font-size: x-small; color: #000;"></td>

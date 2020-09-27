@@ -95,7 +95,7 @@ $(document).on('click', 'a.sub_empreendimento', function(){
 
 	let id_empre = $(this).parents('tr').attr('id-emprendimento');
 
-	console.log(id_empre);
+	// console.log(id_empre);
 	
 	//Rotina para limpar a tabela de sub-empreendimento
 	$('tbody#sub_empreendimento > tr:not(tr.hidden)').each(function(){
@@ -118,8 +118,9 @@ $(document).on('click', 'a.sub_empreendimento', function(){
 
 					tr.attr('id-sub-empre', dados[i].id);
 
-					tr.find('> td').eq(0).text(dados[i].id);
-					tr.find('> td').eq(1).text(dados[i].titulo);
+					tr.find('> td').eq(0).text(dados[i].id).attr('id','id_empre');
+					tr.find('> td').eq(1).text(dados[i].titulo).attr("contenteditable", "true").attr('id','titulo_emp');
+					// console.log(tr.find('> td').eq(1));
 					tr.find('> td').eq(2).text(dados[i].nome_tipo);
 					tr.find('> td').eq(3).text(dados[i].nome_resp);
 					tr.find('> td').eq(4).text(dados[i].obs);
@@ -250,4 +251,46 @@ $(document).on('submit', 'form#confirm_del_emp', function(){
 			alert('Não foi possível excluir o empreendimento.');
 		}
 	});
+});
+
+$(document).on('blur', '#nomemp', function(){
+
+	let titulo = $(this).text();
+	let emp = $(this).siblings('#idemp').text();
+	// ajax salvando
+	$.ajax({  
+		url:'const_grava_sub_empre.php',  
+		method:'POST', 
+		data: { empreendimento_update:emp,titulo:titulo },
+		dataType:'json',  
+		success: dados => 	
+		{
+			setTimeout(function(){ location.reload(); }, 100);
+		},
+		error: dados =>
+		{
+		}
+	});
+
+});
+
+$(document).on('blur', '#titulo_emp', function(){
+
+	let titulo = $(this).text();
+	let emp = $(this).siblings('#id_empre').text();
+	// ajax salvando
+	$.ajax({  
+		url:'const_grava_sub_empre.php',  
+		method:'POST', 
+		data: { sub_update:emp,titulo:titulo},
+		dataType:'json',  
+		success: dados => 	
+		{
+			setTimeout(function(){ location.reload(); }, 100);
+		},
+		error: dados =>
+		{
+		}
+	});
+
 });

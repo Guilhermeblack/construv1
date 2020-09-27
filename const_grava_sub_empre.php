@@ -56,6 +56,7 @@
 	//Rotina para garavar um tipo de sub-empreendimento no banco
 	if(isset($_POST['grava_tipo'])){
 
+		include 'conexao.php';
 		$titulo = addslashes($_POST['grava_tipo']);
 		$m2 = addslashes($_POST['m2']);
 
@@ -68,6 +69,7 @@
 	//Rotina para gravar uma sub-empreendimento
 	if(isset($_POST['grava_sub'])){
 
+		include 'conexao.php';
 		$dados = $_POST['grava_sub'];
 
 		$titulo = sanitizeString($dados['titulo']);
@@ -88,7 +90,7 @@
 	if(isset($_POST['lista_sub_empre'])){
 
 		$id_empreendimento = $_POST['lista_sub_empre'];
-
+		include 'conexao.php';
 		// var_dump($id_empreendimento);
 		// 	die();
 
@@ -116,8 +118,10 @@
 		}
 	}
 
+	//DELETO SUB PELO BOTAO DA TABELA
 	if(isset($_POST['deleta_sub'])){
 
+		include 'conexao.php';
 		$id_sub = $_POST['deleta_sub'];
 
 		$query = mysqli_query($db, "DELETE FROM `const_sub_empreendimento` WHERE `id` = $id_sub")or die(mysqli_error($db));
@@ -125,13 +129,38 @@
 		echo json_encode(1);
 	}
 
+	//DELETO PELO BOTAO DA TABELA
 	if(isset($_POST['empreendimentoid'])){
 
+		include 'conexao.php';
 		$id_emp = $_POST['empreendimentoid'];
 		$query = mysqli_query($db, "DELETE FROM `empreendimento_cadastro` WHERE `idempreendimento_cadastro` = $id_emp")or die(mysqli_error($db));
 
 		echo json_encode(1);
 	}
 
+
+
+	//ATUALIZO O NOME DO EMPREENDIMENTO PELO CAMPO EDITAVEL NA TABELA
+	if(isset($_POST['empreendimento_update'])){
+
+		include 'conexao.php';
+		$id_emp = abs($_POST['empreendimento_update']);
+		$titulo = addslashes($_POST['titulo']);
+		// var_dump($id_emp, $titulo);
+		$query = mysqli_query($db, "UPDATE `empreendimento_cadastro` SET  `descricao_empreendimento` = '".$titulo."'  WHERE `idempreendimento_cadastro` = ".$id_emp."")or die(mysqli_error($db));
+		// echo json_encode(1);
+	};
+
+	//ATUALIZO O NOME DO SUB PELO CAMPO EDITAVEL NA TABELA
+	if(isset($_POST['sub_update'])){
+
+		include 'conexao.php';
+		$id_emp = abs($_POST['sub_update']);
+		$titulo = addslashes($_POST['titulo']);
+		$query = mysqli_query($db, "UPDATE `const_sub_empreendimento` SET titulo = '".$titulo."'  WHERE `id` = ".$id_emp."")or die(mysqli_error($db));
+		// echo json_encode(1);
+	};
+	
 
  ?>
